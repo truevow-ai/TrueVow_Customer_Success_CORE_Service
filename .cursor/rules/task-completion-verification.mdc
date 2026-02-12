@@ -1,0 +1,73 @@
+---
+description: Zero-tolerance policy for task completion verification - requires tests or manual proof before marking tasks as DONE
+alwaysApply: true
+---
+
+# Task Completion Verification Rule
+
+## Zero-Tolerance Policy
+
+**NO task can be marked as DONE unless it meets ONE of these requirements:**
+
+### Option 1: Test Coverage
+- ✅ A test has been **added** for new functionality, OR
+- ✅ An existing test has been **updated** to cover the changes
+- ✅ The test **passes** and validates the implementation
+
+### Option 2: Manual Verification (UI/API)
+- ✅ A **reproducible curl command** is provided (for API endpoints)
+- ✅ **Expected output** is documented
+- ✅ **Screenshot proof** is provided (for UI changes)
+
+## Enforcement
+
+When marking a task as DONE, the assistant MUST:
+
+1. **Verify test exists:**
+   - Check if test file was created/updated
+   - Confirm test passes
+   - If no test exists, require Option 2
+
+2. **Verify manual proof exists:**
+   - For API: curl command + expected output
+   - For UI: screenshot showing the change
+   - If no proof exists, require Option 1
+
+3. **Never mark DONE without:**
+   - ❌ Just code changes
+   - ❌ "Looks good" without verification
+   - ❌ Assumptions about functionality
+
+## Examples
+
+### ✅ CORRECT: Task with Test
+```
+Task: Add user authentication endpoint
+Status: DONE
+- ✅ Test added: tests/api/test_auth.py::test_login_success
+- ✅ Test passes: pytest tests/api/test_auth.py
+```
+
+### ✅ CORRECT: Task with Manual Proof
+```
+Task: Update login page styling
+Status: DONE
+- ✅ curl: curl -X POST http://localhost:8000/api/login -d '{"email":"test@example.com","password":"test123"}'
+- ✅ Expected: {"token": "...", "user": {...}}
+- ✅ Screenshot: screenshots/login-page-updated.png
+```
+
+### ❌ INCORRECT: Task without Verification
+```
+Task: Add user authentication endpoint
+Status: DONE
+- Code changes complete
+```
+**MUST NOT be marked DONE - missing test or proof**
+
+## Exception Handling
+
+If a task genuinely cannot have tests (e.g., documentation-only, config changes):
+- Document why test is not applicable
+- Provide alternative verification (e.g., manual review checklist)
+- Still require proof of completion (screenshot, output, etc.)

@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"path": "../2025-TrueVow-SaaS-Administration"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"terminal.integrated.defaultProfile.windows": "Git Bash",
+		"terminal.integrated.profiles.windows": {
+			"Git Bash": {
+				"path": "C:\\Program Files\\Git\\bin\\bash.exe",
+				"icon": "terminal-bash"
+			},
+			"PowerShell": {
+				"path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"icon": "terminal-powershell"
+			},
+			"Command Prompt": {
+				"path": "C:\\WINDOWS\\System32\\cmd.exe",
+				"icon": "terminal-cmd"
+			}
+		}
+	}
+}

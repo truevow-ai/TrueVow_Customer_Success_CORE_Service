@@ -1,0 +1,48 @@
+/**
+ * API Route: Generate Renewal Forecast
+ * POST /api/v1/renewal/forecast
+ */
+
+import { NextRequest, NextResponse } from 'next/server'
+import { RenewalOrchestrationService } from '@/lib/services/renewal-orchestration'
+import { verifyApiKey } from '@/lib/auth/api-key'
+
+export async function POST(request: NextRequest) {
+  try {
+    // Verify API key
+    const apiKey = request.headers.get('x-api-key')
+    if (!apiKey || !(await verifyApiKey(apiKey))) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    const body = await request.json()
+    const { tenant_id, customer_email, renewal_id } = body
+
+    if (!tenant_id || !customer_email) {
+      return NextResponse.json(
+        { error: 'Missing required fields: tenant_id, customer_email' },
+        { status: 400 }
+      )
+    }
+
+    const forecast = await RenewalOrchestrationService.generateForecast(
+      tenant_id,
+      customer_email,
+      renewal_id
+    )
+
+    return NextResponse.json({
+      success: true,
+      forecast,
+    })
+  } catch (error: any) {
+    console.error('Error generating forecast:', error)
+    return NextResponse.json(
+      { error: error.message || 'Failed to generate forecast' },
+      { status: 500 }
+    )
+  }
+}

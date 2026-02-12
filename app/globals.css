@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Unified Design System - Sidebar Colors (HSL format) */
+    --sidebar: 299 64% 15%; /* #3F0E40 - Dark Purple */
+    --sidebar-foreground: 0 0% 100%; /* White */
+    --sidebar-border: 299 64% 20%; /* #522653 - Lighter purple for borders */
+    
+    /* Active State (HSL format) */
+    --active: 205 80% 35%; /* #1264A3 - Blue */
+    --active-foreground: 0 0% 100%; /* White */
+    
+    /* Main Area - Light Mode (HSL format) */
+    --background: 0 0% 100%; /* White */
+    --foreground: 0 0% 10%; /* Dark text */
+    --background-secondary: 0 0% 98%; /* Very light gray */
+    --foreground-secondary: 0 0% 45%; /* Medium gray */
+    --border: 0 0% 90%; /* Light border */
+    
+    /* Spacing Scale */
+    --spacing-xs: 0.25rem;   /* 4px */
+    --spacing-sm: 0.5rem;    /* 8px */
+    --spacing-md: 1rem;      /* 16px */
+    --spacing-lg: 1.5rem;    /* 24px */
+    --spacing-xl: 2rem;      /* 32px */
+    --spacing-2xl: 3rem;     /* 48px */
+    --spacing-3xl: 4rem;     /* 64px */
+    
+    /* Typography Scale */
+    --text-xs: 0.75rem;      /* 12px */
+    --text-sm: 0.875rem;     /* 14px */
+    --text-base: 1rem;       /* 16px */
+    --text-lg: 1.125rem;     /* 18px */
+    --text-xl: 1.25rem;      /* 20px */
+    --text-2xl: 1.5rem;      /* 24px */
+    --text-3xl: 1.875rem;    /* 30px */
+    --text-4xl: 2.25rem;     /* 36px */
+    
+    /* Legacy support (for existing components) */
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 255, 255, 255;
+  }
+
+  .dark {
+    /* Main Area - Dark Mode (HSL format) */
+    --background: 0 0% 10%; /* #1A1A1A - Dark charcoal */
+    --foreground: 0 0% 100%; /* White text */
+    --background-secondary: 0 0% 15%; /* Slightly lighter */
+    --foreground-secondary: 0 0% 70%; /* Light gray */
+    --border: 0 0% 25%; /* Dark border */
+    
+    /* Sidebar remains the same in dark mode */
+    --sidebar: 299 64% 15%; /* #3F0E40 */
+    --sidebar-foreground: 0 0% 100%; /* White */
+    --sidebar-border: 299 64% 20%; /* #522653 */
+    
+    /* Legacy support */
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 26, 26, 26;
+    --background-end-rgb: 26, 26, 26;
+  }
+
+  body {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--background));
+    /* Legacy gradient support */
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgb(var(--background-end-rgb))
+      )
+      rgb(var(--background-start-rgb));
+  }
+}
+
