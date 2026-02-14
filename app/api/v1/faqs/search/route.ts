@@ -42,3 +42,6 @@ export async function POST(req: NextRequest) {
     return errorResponse('Failed to search FAQs', 500)
   }
 }
+
+
+

@@ -16,7 +16,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return errorResponse('Unauthorized', 401)
     }
@@ -45,7 +45,7 @@ export async function GET(
     return successResponse(data)
   } catch (error: any) {
     console.error('Error fetching workflow:', error)
-    return errorResponse('Failed to fetch workflow', 500, error.message)
+    return errorResponse(error.message || 'Failed to fetch workflow', 500)
   }
 }
 
@@ -54,7 +54,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return errorResponse('Unauthorized', 401)
     }
@@ -106,7 +106,7 @@ export async function PUT(
     return successResponse(data)
   } catch (error: any) {
     console.error('Error updating workflow:', error)
-    return errorResponse('Failed to update workflow', 500, error.message)
+    return errorResponse(error.message || 'Failed to update workflow', 500)
   }
 }
 
@@ -115,7 +115,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return errorResponse('Unauthorized', 401)
     }
@@ -152,6 +152,6 @@ export async function DELETE(
     return successResponse({ message: 'Workflow deleted successfully' })
   } catch (error: any) {
     console.error('Error deleting workflow:', error)
-    return errorResponse('Failed to delete workflow', 500, error.message)
+    return errorResponse(error.message || 'Failed to delete workflow', 500)
   }
 }

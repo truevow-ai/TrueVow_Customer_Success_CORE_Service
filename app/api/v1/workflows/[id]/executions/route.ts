@@ -14,7 +14,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return errorResponse('Unauthorized', 401)
     }
@@ -42,6 +42,6 @@ export async function GET(
     })
   } catch (error: any) {
     console.error('Error fetching workflow executions:', error)
-    return errorResponse('Failed to fetch executions', 500, error.message)
+    return errorResponse(error.message || 'Failed to fetch executions', 500)
   }
 }

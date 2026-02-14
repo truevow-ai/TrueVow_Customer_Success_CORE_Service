@@ -1,0 +1,88 @@
+============================================================
+AGENT INSTRUCTION BLOCK A: FIRST-LINE SUPPORT SERVICE SETUP
+============================================================
+
+PROJECT: TrueVow_First_Line_Support_Service (Clerk App 2 - MEDIUM TRUST)
+PORT: 3008
+LOCATION: C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_First_Line_Support_Service
+
+CLERK APP 2 KEYS (add to .env.local):
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_YOUR_APP_2_PUBLISHABLE_KEY
+CLERK_SECRET_KEY=sk_test_YOUR_APP_2_SECRET_KEY
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+
+FILES TO COPY FROM MONOLITH:
+----------------------------------------
+
+COMPONENTS TO MOVE:
+components/inbox/ (ALL files - 20+ unified inbox components)
+components/unified-inbox/ (ActiveUsersIndicator.tsx, CollisionIndicator.tsx, UnifiedCommunicationPanel.tsx)
+components/customer-portal/ (Beacon.tsx, WebChatWidget.tsx)
+components/support/CustomerSupportChat.tsx
+components/marketing-website/SalesWebChatWidget.tsx
+components/kb/KBArticleEditor.tsx
+components/kb/KBArticleList.tsx
+
+LIB FILES TO MOVE:
+lib/ai/ (ALL 4 files: hybrid-support-agent.ts, support-agent.ts, tier1-faq-agent.ts, tier2-llm-enhancer.ts)
+lib/integrations/openai.ts
+lib/integrations/anthropic.ts
+lib/integrations/grok.ts
+lib/integrations/deepgram.ts
+lib/integrations/twilio.ts
+lib/integrations/plivo.ts
+lib/integrations/resend.ts
+lib/integrations/sendgrid.ts
+lib/integrations/whatsapp/ (entire directory)
+lib/integrations/speech-provider-factory.ts
+lib/integrations/voice-provider-factory.ts
+lib/interfaces/speech-provider.ts
+lib/interfaces/voice-provider.ts
+lib/repositories/conversations.ts
+lib/repositories/call-logs.ts
+lib/repositories/agent-executions.ts
+lib/repositories/activity-feed.ts
+lib/config/llm-config.ts
+
+SECURITY CONSTRAINTS:
+- PII Redaction REQUIRED (mask SSN, credit cards, emails, phone numbers in logs/UI)
+- LLM Sandbox REQUIRED (timeout, max tokens, content filters)
+- Rate limiting for all AI endpoints
+- Audit logging for all agent interactions
+- No direct database access - only through secure API proxies
+- Environment isolation (separate DB connections, keys)
+
+IMPLEMENTATION STEPS:
+1. Create components/ directory structure matching monolith
+2. Copy all listed component files from monolith
+3. Create lib/ directory structure
+4. Copy all listed lib files from monolith
+5. Install Clerk App 2 keys in .env.local
+6. Add PII redaction middleware
+7. Implement LLM sandboxing (timeout, token limits, content filters)
+8. Add rate limiting to AI endpoints
+9. Set up audit logging for agent interactions
+10. Wire communication channel integrations (Twilio, SendGrid, WhatsApp)
+11. Configure voice/speech providers
+12. Run truth gates: tsc --noEmit, npm run lint, npx next build
+
+TRUTH GATES:
+✅ tsc --noEmit (no type errors)
+✅ npm run lint (no lint errors)
+✅ npx next build (successful build)
+✅ Clerk authentication working
+✅ PII redaction verified
+✅ LLM sandboxing enforced
+✅ Rate limiting active
+✅ Audit logs recording
+
+DELIVERY CRITERIA:
+- All customer-facing chat/messaging functionality operational
+- LLM agents responding with PII protection
+- Communication channels (email, SMS, voice, WhatsApp) working
+- Knowledge base management for support agents
+- Secure audit trail for all interactions
+- Ready for production deployment

@@ -53,3 +53,6 @@ export async function GET(req: NextRequest) {
     return errorResponse('Failed to fetch subscription status', 500)
   }
 }
+
+
+

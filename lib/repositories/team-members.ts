@@ -4,6 +4,7 @@ export interface TeamMember {
   member_id: string
   user_id: string
   clerk_user_id: string
+  tenant_id?: string
   role: 'support_agent' | 'support_manager' | 'csm' | 'head_of_cs' | 'solutions_engineer'
   is_active: boolean
   timezone: string

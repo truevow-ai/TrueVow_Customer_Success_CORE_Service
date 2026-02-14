@@ -152,3 +152,6 @@ export const POST = withTeamMember(async (req: NextRequest) => {
     return errorResponse('Failed to create FAQ', 500)
   }
 })
+
+
+

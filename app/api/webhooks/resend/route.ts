@@ -341,3 +341,6 @@ async function handleEmailUnsubscribed(supabase: any, data: any) {
       // Table might not exist, ignore
     })
 }
+
+
+

@@ -25,3 +25,6 @@ export const GET = withTeamMember(async (req: NextRequest, context) => {
     return errorResponse(error instanceof Error ? error.message : 'Failed to fetch team members', 500)
   }
 })
+
+
+

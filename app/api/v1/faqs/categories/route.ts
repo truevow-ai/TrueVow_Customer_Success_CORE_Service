@@ -21,3 +21,6 @@ export async function GET(req: NextRequest) {
     return errorResponse('Failed to fetch categories', 500)
   }
 }
+
+
+

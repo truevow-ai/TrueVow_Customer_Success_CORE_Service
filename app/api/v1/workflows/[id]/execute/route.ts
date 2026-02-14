@@ -14,7 +14,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return errorResponse('Unauthorized', 401)
     }
@@ -36,6 +36,6 @@ export async function POST(
     return successResponse(execution)
   } catch (error: any) {
     console.error('Error executing workflow:', error)
-    return errorResponse('Failed to execute workflow', 500, error.message)
+    return errorResponse(error.message || 'Failed to execute workflow', 500)
   }
 }

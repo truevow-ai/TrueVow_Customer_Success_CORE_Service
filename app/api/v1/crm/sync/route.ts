@@ -123,7 +123,7 @@ export const POST = withRateLimit(
           resource_id: sanitizedTicketId,
           user_id: context.userId,
           team_member_id: context.teamMemberId,
-          tenant_id: teamMember.tenant_id,
+          tenant_id: teamMember.tenant_id || '',
           ip_address: getIpAddress(req),
           user_agent: getUserAgent(req),
           request_body: { ticket_id: sanitizedTicketId, action: sanitizedAction },
@@ -147,7 +147,7 @@ export const POST = withRateLimit(
             resource_id: sanitizedTicketId,
             user_id: context.userId,
             team_member_id: context.teamMemberId,
-            tenant_id: teamMember.tenant_id,
+            tenant_id: teamMember.tenant_id || '',
             ip_address: getIpAddress(req),
             user_agent: getUserAgent(req),
             request_body: { ticket_id: sanitizedTicketId, action: sanitizedAction },
@@ -167,7 +167,7 @@ export const POST = withRateLimit(
         resource_id: sanitizedAction === 'sync_all' ? 'all' : sanitizedTicketId,
         user_id: context.userId,
         team_member_id: context.teamMemberId,
-        tenant_id: teamMember.tenant_id,
+        tenant_id: teamMember.tenant_id || '',
         ip_address: getIpAddress(req),
         user_agent: getUserAgent(req),
         request_body: { ticket_id: sanitizedTicketId, action: sanitizedAction },
@@ -178,7 +178,7 @@ export const POST = withRateLimit(
 
       if (sanitizedAction === 'sync_all') {
         // Sync all pending tickets
-        result = await CRMSyncService.syncPendingTickets(teamMember.tenant_id)
+        result = await CRMSyncService.syncPendingTickets(teamMember.tenant_id || '')
         responseMessage = 'Sync completed'
       } else if (sanitizedAction === 'create') {
         const crmCase = await CRMSyncService.createCaseInCRM(sanitizedTicketId)
@@ -199,7 +199,7 @@ export const POST = withRateLimit(
         resource_id: sanitizedAction === 'sync_all' ? 'all' : sanitizedTicketId,
         user_id: context.userId,
         team_member_id: context.teamMemberId,
-        tenant_id: teamMember.tenant_id,
+        tenant_id: teamMember.tenant_id || '',
         ip_address: getIpAddress(req),
         user_agent: getUserAgent(req),
         request_body: { ticket_id: sanitizedTicketId, action: sanitizedAction },
@@ -281,7 +281,7 @@ export const GET = withRateLimit(
           resource_id: ticketId,
           user_id: context.userId,
           team_member_id: context.teamMemberId,
-          tenant_id: teamMember.tenant_id,
+          tenant_id: teamMember.tenant_id || '',
           ip_address: getIpAddress(req),
           user_agent: getUserAgent(req),
           error_message: `Ticket tenant ${ticket.tenant_id} does not match user tenant ${teamMember.tenant_id}`,
@@ -311,3 +311,6 @@ export const GET = withRateLimit(
     }
   })
 )
+
+
+

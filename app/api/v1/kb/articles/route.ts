@@ -22,7 +22,7 @@ const createArticleSchema = z.object({
 
 export async function GET(req: NextRequest) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -90,3 +90,6 @@ export async function POST(req: NextRequest) {
     )
   }
 }
+
+
+

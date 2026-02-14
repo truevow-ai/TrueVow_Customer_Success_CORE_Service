@@ -16,7 +16,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import {
   LayoutDashboard,
-  Inbox,
   Ticket,
   BookOpen,
   Users,
@@ -32,7 +31,6 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/dashboard/dashboard', icon: LayoutDashboard },
-  { name: 'Inbox', href: '/dashboard/inbox', icon: Inbox },
   { name: 'Tickets', href: '/dashboard/tickets', icon: Ticket },
   { name: 'Knowledge Base', href: '/dashboard/knowledge-base', icon: BookOpen },
   { name: 'Team', href: '/dashboard/team', icon: Users },

@@ -1,0 +1,115 @@
+============================================================
+AGENT INSTRUCTION BLOCK B: CS-SUPPORT CORE CLEANUP
+============================================================
+
+PROJECT: TrueVow_Customer_Success_CORE_Service (Clerk App 1 - HIGH TRUST)
+PORT: 3007
+LOCATION: C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Success_CORE_Service
+
+CLERK APP 1 KEYS (already configured):
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c21vb3RoLXJlZGJpcmQtMTIuY2xlcmsuYWNjb3VudHMuZGV2JA
+CLERK_SECRET_KEY=sk_test_k36y6yAcn1UNPDVmoy3DrA83j6kjrBdnXpcxki3UZd
+
+FILES TO DELETE (MOVED TO FIRST-LINE SUPPORT):
+----------------------------------------
+
+COMPONENTS TO DELETE:
+components/inbox/ (entire directory)
+components/unified-inbox/ (entire directory)
+components/customer-portal/ (entire directory)
+components/support/ (entire directory)
+components/marketing-website/ (entire directory)
+components/kb/ (entire directory)
+
+LIB DIRECTORIES TO DELETE:
+lib/ai/ (entire directory)
+lib/interfaces/ (entire directory)
+lib/integrations/whatsapp/ (entire directory)
+
+LIB FILES TO DELETE:
+lib/integrations/openai.ts
+lib/integrations/anthropic.ts
+lib/integrations/grok.ts
+lib/integrations/deepgram.ts
+lib/integrations/twilio.ts
+lib/integrations/plivo.ts
+lib/integrations/resend.ts
+lib/integrations/sendgrid.ts
+lib/integrations/speech-provider-factory.ts
+lib/integrations/voice-provider-factory.ts
+lib/repositories/conversations.ts
+lib/repositories/call-logs.ts
+lib/repositories/agent-executions.ts
+lib/repositories/activity-feed.ts
+lib/config/llm-config.ts
+
+PACKAGE.JSON CLEANUP:
+Remove dependency: "resend": "^3.5.0"
+Remove test scripts:
+- "test:resend"
+- "test:sms"
+- "test:whatsapp"
+- "test:ai-agent"
+- "test:phase4"
+- "verify:dialer"
+
+ENVIRONMENT VARIABLES TO REMOVE:
+SENDGRID_* (all SendGrid variables)
+TWILIO_* (all Twilio variables)
+OPENAI_* (all OpenAI variables)
+ANTHROPIC_* (all Anthropic variables)
+GROK_* (all Grok variables)
+DEEPGRAM_* (all Deepgram variables)
+RESEND_* (all Resend variables)
+
+ADD NEW ENVIRONMENT VARIABLE:
+FIRST_LINE_SUPPORT_SERVICE_URL=http://localhost:3008
+FIRST_LINE_SUPPORT_SERVICE_API_KEY=<generate_random_64_char_hex>
+
+FILES TO KEEP (INTERNAL CS FUNCTIONALITY):
+----------------------------------------
+components/cs-support/ (dashboards, dialer)
+components/analytics/
+components/billing/
+components/health/
+components/tickets/
+components/workflows/
+components/layout/, components/navigation/, components/shared/, components/ui/
+components/command-palette/
+lib/repositories/customer-health.ts
+lib/repositories/customer-churn-risk.ts
+lib/repositories/customer-success-metrics.ts
+lib/middleware/ (auth, audit-log, compliance)
+lib/integrations/platform-client.ts
+lib/integrations/internal-ops-client.ts
+lib/integrations/tenant-client.ts
+lib/integrations/sales-client.ts
+lib/db/
+
+IMPLEMENTATION STEPS:
+1. Delete all listed component directories
+2. Delete all listed lib files/directories
+3. Update package.json (remove resend dep, cleanup test scripts)
+4. Update .env.local (remove LLM/SMS/voice keys, add First-Line connectivity)
+5. Fix broken imports in remaining files
+6. Update navigation (remove Inbox, Knowledge Base, AI Agents links)
+7. Update lib/repositories/index.ts (remove deleted exports)
+8. Run truth gates: tsc --noEmit, npm run lint, npx next build
+
+TRUTH GATES:
+✅ tsc --noEmit (no type errors)
+✅ npm run lint (no lint errors)
+✅ npx next build (successful build)
+✅ No LLM/first-line code remaining
+✅ Clerk App 1 authentication working
+✅ Internal CS dashboards functional
+✅ All API routes operational except deleted ones
+
+DELIVERY CRITERIA:
+- Pure internal CS service (LLM-free)
+- Only customer success managers/executives can access
+- Full tenant visibility (not scoped)
+- Health scoring, analytics, ticket management working
+- No customer-facing chat/messaging code
+- Ready for production deployment
+- Connected to First-Line-Support via API

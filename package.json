@@ -13,20 +13,14 @@
     "test:coverage": "jest --coverage",
     "test:integration": "jest --testPathPattern=integration",
     "test:unit": "jest --testPathPattern=__tests__",
-    "test:resend": "tsx scripts/test-resend-email.ts",
     "test:jtbd": "tsx scripts/test-jtbd-integration.ts",
     "test:templates": "tsx scripts/test-communication-templates.ts",
     "test:phone": "tsx scripts/test-phone-number-integration.ts",
-    "test:sms": "tsx scripts/test-sms-integration.ts",
-    "test:whatsapp": "tsx scripts/test-whatsapp-integration.ts",
-    "test:ai-agent": "tsx scripts/test-ai-agent.ts",
     "test:post-onboarding": "tsx scripts/scheduled-jobs/post-onboarding-flows.ts",
-    "test:phase4": "tsx scripts/test-phase4-inbox.ts",
-    "verify:dialer": "tsx scripts/verify-unified-dialer.ts",
     "test:all": "tsx scripts/run-all-tests.ts"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.0.0",
+    "@clerk/nextjs": "^6.37.4",
     "@hookform/resolvers": "^3.3.4",
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.0",
@@ -39,7 +33,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.49.3",
-    "resend": "^3.5.0",
+
     "tailwind-merge": "^2.2.0",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"

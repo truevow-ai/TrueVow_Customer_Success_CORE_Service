@@ -36,6 +36,10 @@ export const GET = withTeamMember(async (req: NextRequest, context) => {
       return errorResponse('Team member not found', 404)
     }
 
+    if (!teamMember.tenant_id) {
+      return errorResponse('Tenant ID not found', 400)
+    }
+
     const metrics = await AnalyticsService.getDashboardMetrics(
       teamMember.tenant_id,
       timeRange
@@ -49,3 +53,6 @@ export const GET = withTeamMember(async (req: NextRequest, context) => {
     )
   }
 })
+
+
+

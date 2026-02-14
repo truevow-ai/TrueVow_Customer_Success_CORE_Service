@@ -12,7 +12,7 @@ import { successResponse, errorResponse, getPagination } from '@/lib/api/helpers
 
 export async function GET(req: NextRequest) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return errorResponse('Unauthorized', 401)
     }
@@ -59,13 +59,13 @@ export async function GET(req: NextRequest) {
     })
   } catch (error: any) {
     console.error('Error fetching workflows:', error)
-    return errorResponse('Failed to fetch workflows', 500, error.message)
+    return errorResponse(error.message || 'Failed to fetch workflows', 500)
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const context = await requireAuth(req)
+    const context = await requireAuth()
     if (!context.userId) {
       return errorResponse('Unauthorized', 401)
     }
@@ -101,6 +101,9 @@ export async function POST(req: NextRequest) {
     return successResponse(data)
   } catch (error: any) {
     console.error('Error creating workflow:', error)
-    return errorResponse('Failed to create workflow', 500, error.message)
+    return errorResponse(error.message || 'Failed to create workflow', 500)
   }
 }
+
+
+
