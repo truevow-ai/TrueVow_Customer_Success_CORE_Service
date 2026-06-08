@@ -25,7 +25,7 @@ export const GET = withTeamMember(async (req: NextRequest) => {
     const limit = parseInt(searchParams.get('limit') || '100')
     const offset = parseInt(searchParams.get('offset') || '0')
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
     let queryBuilder = supabase
       .from('cs_faq_entries')
       .select('*', { count: 'exact' })
@@ -100,7 +100,7 @@ export const POST = withTeamMember(async (req: NextRequest) => {
       return errorResponse('Question and answer are required', 400)
     }
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
 
     // Get user's tenant_id if not provided
     let finalTenantId = tenant_id
@@ -146,7 +146,7 @@ export const POST = withTeamMember(async (req: NextRequest) => {
       return errorResponse('Failed to create FAQ', 500)
     }
 
-    return successResponse({ faq }, 201)
+    return successResponse({ faq }, 'FAQ created successfully', 201)
   } catch (error: any) {
     console.error('Error in POST /api/v1/faqs:', error)
     return errorResponse('Failed to create FAQ', 500)

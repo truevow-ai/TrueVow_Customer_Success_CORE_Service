@@ -6,7 +6,7 @@
 
 'use client'
 
-import { X, Mail, Phone, Calendar, Activity, TrendingUp, MessageSquare } from 'lucide-react'
+import { X, Mail, Phone, Calendar, Activity, TrendingUp, MessageSquare, Map, Eye } from 'lucide-react'
 import { Card } from '@/components/shared/Card'
 import { Badge } from '@/components/shared/Badge'
 import { Button } from '@/components/shared/Button'
@@ -15,16 +15,16 @@ interface PostOnboardingCustomer {
   customer_id: string
   customer_email: string
   tenant_id: string
-  go_live_date: string
-  onboarding_completed_at: string
-  transferred_from_onboarding_at: string
+  go_live_date: string | null
+  onboarding_completed_at: string | null
+  transferred_from_onboarding_at: string | null
   assigned_csm_id: string | null
   health_score: number | null
   churn_risk_level: 'low' | 'medium' | 'high' | 'critical' | null
   days_since_go_live: number
   communications_count: number
   last_communication_at: string | null
-  status: 'active' | 'at_risk' | 'healthy'
+  status: string
   notes?: string | null
   metadata?: Record<string, any> | null
 }
@@ -34,6 +34,7 @@ interface CustomerDetailModalProps {
   onClose: () => void
   onSendEmail?: (email: string) => void
   onScheduleCall?: (email: string) => void
+  onViewJourney?: (customerId: string, customerEmail: string) => void
 }
 
 export function CustomerDetailModal({
@@ -41,6 +42,7 @@ export function CustomerDetailModal({
   onClose,
   onSendEmail,
   onScheduleCall,
+  onViewJourney,
 }: CustomerDetailModalProps) {
   if (!customer) return null
 
@@ -138,7 +140,7 @@ export function CustomerDetailModal({
                 <div>
                   <p className="font-medium text-gray-900">Onboarding Completed</p>
                   <p className="text-sm text-gray-500">
-                    {new Date(customer.onboarding_completed_at).toLocaleDateString()}
+                    {customer.onboarding_completed_at ? new Date(customer.onboarding_completed_at).toLocaleDateString() : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -147,7 +149,7 @@ export function CustomerDetailModal({
                 <div>
                   <p className="font-medium text-gray-900">Go-Live Date</p>
                   <p className="text-sm text-gray-500">
-                    {new Date(customer.go_live_date).toLocaleDateString()}
+                    {customer.go_live_date ? new Date(customer.go_live_date).toLocaleDateString() : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -156,7 +158,7 @@ export function CustomerDetailModal({
                 <div>
                   <p className="font-medium text-gray-900">Transferred to CS-Support</p>
                   <p className="text-sm text-gray-500">
-                    {new Date(customer.transferred_from_onboarding_at).toLocaleDateString()}
+                    {customer.transferred_from_onboarding_at ? new Date(customer.transferred_from_onboarding_at).toLocaleDateString() : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -189,23 +191,35 @@ export function CustomerDetailModal({
           </Card>
 
           {/* Quick Actions */}
-          <div className="flex space-x-3">
-            {onSendEmail && (
-              <Button onClick={() => onSendEmail(customer.customer_email)} className="flex-1">
-                <Mail className="mr-2 h-4 w-4" />
-                Send Email
-              </Button>
-            )}
-            {onScheduleCall && (
-              <Button
-                onClick={() => onScheduleCall(customer.customer_email)}
+          <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3">
+            {onViewJourney && (
+              <Button 
+                onClick={() => onViewJourney(customer.customer_id, customer.customer_email)}
                 variant="outline"
                 className="flex-1"
               >
-                <Phone className="mr-2 h-4 w-4" />
-                Schedule Call
+                <Map className="mr-2 h-4 w-4" />
+                View Journey
               </Button>
             )}
+            <div className="flex space-x-3">
+              {onSendEmail && (
+                <Button onClick={() => onSendEmail(customer.customer_email)} className="flex-1">
+                  <Mail className="mr-2 h-4 w-4" />
+                  Send Email
+                </Button>
+              )}
+              {onScheduleCall && (
+                <Button
+                  onClick={() => onScheduleCall(customer.customer_email)}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  <Phone className="mr-2 h-4 w-4" />
+                  Schedule Call
+                </Button>
+              )}
+            </div>
           </div>
         </div>
     </div>

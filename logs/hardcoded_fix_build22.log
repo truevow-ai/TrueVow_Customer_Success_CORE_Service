@@ -1,0 +1,588 @@
+﻿
+> truevow-cs-support-service@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./components/analytics/Dashboard.tsx
+111:6  Warning: React Hook useEffect has a missing dependency: 'fetchMetrics'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/command-palette/CommandPalette.tsx
+143:6  Warning: React Hook useEffect has a missing dependency: 'handleCommandSelect'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/calls/CallHistoryDashboard.tsx
+121:6  Warning: React Hook useEffect has missing dependencies: 'fetchCalls' and 'fetchStats'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/journey/CustomerJourneyTracking.tsx
+84:6  Warning: React Hook useEffect has a missing dependency: 'fetchCustomerJourney'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/training/TrainingManagementDashboard.tsx
+117:6  Warning: React Hook useEffect has a missing dependency: 'fetchTrainingData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/health/HealthScore.tsx
+58:6  Warning: React Hook useEffect has a missing dependency: 'fetchHealthScore'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/90) ...
+node.exe : Error fetching subscriptions: n [Error]: Dynamic server usage: 
+Route /api/v1/customers/subscriptions couldn't be rendered statically 
+because it used `headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Error fetching ...ic-server-er 
+   ror:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\9730.js:1:59062)
+    at u (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\929.js:1:2823)
+    at i (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\2212.js:1:4220)
+    at async T (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\chunks\2212.js:1:1485)
+    at async p (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\app\api\v1\customers\subscriptions\r
+oute.js:1:966)
+    at async C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Custom
+er_Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-rout
+e.runtime.prod.js:6:38411
+    at async e_.execute (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tr
+ueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-ser
+ver\app-route.runtime.prod.js:6:27880)
+    at async e_.handle (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-serv
+er\app-route.runtime.prod.js:6:39943)
+    at async exportAppRoute (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\routes
+\app-route.js:77:26)
+    at async exportPageImpl (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\worker
+.js:175:20) {
+  description: "Route /api/v1/customers/subscriptions couldn't be rendered 
+statically because it used `headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching team performance: n [Error]: Dynamic server usage: Route 
+/api/v1/analytics/team couldn't be rendered statically because it used 
+`headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\9730.js:1:59062)
+    at u (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\929.js:1:2823)
+    at i (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\2212.js:1:4220)
+    at async T (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\chunks\2212.js:1:1485)
+    at async l (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\app\api\v1\analytics\team\route.js:1
+:975)
+    at async C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Custom
+er_Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-rout
+e.runtime.prod.js:6:38411
+    at async e_.execute (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tr
+ueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-ser
+ver\app-route.runtime.prod.js:6:27880)
+    at async e_.handle (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-serv
+er\app-route.runtime.prod.js:6:39943)
+    at async exportAppRoute (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\routes
+\app-route.js:77:26)
+    at async exportPageImpl (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\worker
+.js:175:20) {
+  description: "Route /api/v1/analytics/team couldn't be rendered 
+statically because it used `headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching categories: B [Error]: Dynamic server usage: Route 
+/api/v1/faqs/categories couldn't be rendered statically because it used 
+`nextUrl.searchParams`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at V (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.r
+untime.prod.js:6:21778)
+    at Object.get (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_
+Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-server\ap
+p-route.runtime.prod.js:6:29137)
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\app\api\v1\faqs\categories\route.js:1:536)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.runt
+ime.prod.js:6:38417
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cu
+rsor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@
+opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@opentele
+metry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\yasha\OneDrive\Documents\TrueVow
+\Cursor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compile
+d\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\yasha\OneDrive\Documents\TrueVo
+w\Cursor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compil
+ed\@opentelemetry\api\index.js:1:18854)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\server\lib\trace\tracer.js:122:103 
+{
+  description: "Route /api/v1/faqs/categories couldn't be rendered 
+statically because it used `nextUrl.searchParams`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error checking integration status: n [Error]: Dynamic server usage: Route 
+/api/v1/integrations/status couldn't be rendered statically because it used 
+`headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\9730.js:1:59062)
+    at d (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\8160.js:17:4730)
+    at i (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\2212.js:1:4220)
+    at async T (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\chunks\2212.js:1:1485)
+    at async d (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\app\api\v1\integrations\status\route
+.js:1:977)
+    at async C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Custom
+er_Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-rout
+e.runtime.prod.js:6:38411
+    at async e_.execute (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tr
+ueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-ser
+ver\app-route.runtime.prod.js:6:27880)
+    at async e_.handle (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-serv
+er\app-route.runtime.prod.js:6:39943)
+    at async exportAppRoute (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\routes
+\app-route.js:77:26)
+    at async exportPageImpl (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\worker
+.js:175:20) {
+  description: "Route /api/v1/integrations/status couldn't be rendered 
+statically because it used `headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error checking integration health: n [Error]: Dynamic server usage: Route 
+/api/v1/integrations/health couldn't be rendered statically because it used 
+`headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\9730.js:1:59062)
+    at u (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\929.js:1:2823)
+    at i (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\2212.js:1:4220)
+    at async T (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\chunks\2212.js:1:1485)
+    at async l (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\app\api\v1\integrations\health\route
+.js:1:977)
+    at async C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Custom
+er_Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-rout
+e.runtime.prod.js:6:38411
+    at async e_.execute (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tr
+ueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-ser
+ver\app-route.runtime.prod.js:6:27880)
+    at async e_.handle (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-serv
+er\app-route.runtime.prod.js:6:39943)
+    at async exportAppRoute (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\routes
+\app-route.js:77:26)
+    at async exportPageImpl (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\worker
+.js:175:20) {
+  description: "Route /api/v1/integrations/health couldn't be rendered 
+statically because it used `headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error getting master dashboard: B [Error]: Dynamic server usage: Route 
+/api/v1/dashboard/master couldn't be rendered statically because it used 
+`request.headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at V (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.r
+untime.prod.js:6:21778)
+    at Object.get (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_
+Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-server\ap
+p-route.runtime.prod.js:6:29465)
+    at n (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\730.js:11:665)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\.next\server\chunks\730.js:1:3006
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\.next\server\chunks\730.js:1:2232
+    at g (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\app\api\v1\dashboard\master\route.js:1:114
+13)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.runt
+ime.prod.js:6:38417
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cu
+rsor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@
+opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@opentele
+metry\api\index.js:1:518) {
+  description: "Route /api/v1/dashboard/master couldn't be rendered 
+statically because it used `request.headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error getting renewal: B [Error]: Dynamic server usage: Route 
+/api/v1/renewal/customer couldn't be rendered statically because it used 
+`request.headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at V (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.r
+untime.prod.js:6:21778)
+    at Object.get (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_
+Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-server\ap
+p-route.runtime.prod.js:6:29465)
+    at n (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\730.js:11:665)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\.next\server\chunks\730.js:1:3006
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\.next\server\chunks\730.js:1:2232
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\app\api\v1\renewal\customer\route.js:1:892
+)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.runt
+ime.prod.js:6:38417
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cu
+rsor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@
+opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@opentele
+metry\api\index.js:1:518) {
+  description: "Route /api/v1/renewal/customer couldn't be rendered 
+statically because it used `request.headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching integration errors: n [Error]: Dynamic server usage: Route 
+/api/v1/integrations/errors couldn't be rendered statically because it used 
+`headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\9730.js:1:59062)
+    at u (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\929.js:1:2823)
+    at i (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\2212.js:1:4220)
+    at async T (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\chunks\2212.js:1:1485)
+    at async d (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\app\api\v1\integrations\errors\route
+.js:1:977)
+    at async C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Custom
+er_Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-rout
+e.runtime.prod.js:6:38411
+    at async e_.execute (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tr
+ueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-ser
+ver\app-route.runtime.prod.js:6:27880)
+    at async e_.handle (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-serv
+er\app-route.runtime.prod.js:6:39943)
+    at async exportAppRoute (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\routes
+\app-route.js:77:26)
+    at async exportPageImpl (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\worker
+.js:175:20) {
+  description: "Route /api/v1/integrations/errors couldn't be rendered 
+statically because it used `headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (22/90) 
+Error fetching call statistics: B [Error]: Dynamic server usage: Route 
+/api/v1/calls/stats couldn't be rendered statically because it used 
+`nextUrl.searchParams`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at V (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.r
+untime.prod.js:6:21778)
+    at Object.get (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_
+Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-server\ap
+p-route.runtime.prod.js:6:29137)
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\app\api\v1\calls\stats\route.js:1:538)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.runt
+ime.prod.js:6:38417
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cu
+rsor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@
+opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@opentele
+metry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Users\yasha\OneDrive\Documents\TrueVow
+\Cursor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compile
+d\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Users\yasha\OneDrive\Documents\TrueVo
+w\Cursor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compil
+ed\@opentelemetry\api\index.js:1:18854)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\server\lib\trace\tracer.js:122:103 
+{
+  description: "Route /api/v1/calls/stats couldn't be rendered statically 
+because it used `nextUrl.searchParams`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error getting renewals at risk: B [Error]: Dynamic server usage: Route 
+/api/v1/renewal/at-risk couldn't be rendered statically because it used 
+`request.headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at V (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.r
+untime.prod.js:6:21778)
+    at Object.get (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_
+Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-server\ap
+p-route.runtime.prod.js:6:29465)
+    at n (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\730.js:11:665)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\.next\server\chunks\730.js:1:3006
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\.next\server\chunks\730.js:1:2232
+    at l (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\app\api\v1\renewal\at-risk\route.js:1:892)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.runt
+ime.prod.js:6:38417
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cu
+rsor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@
+opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@opentele
+metry\api\index.js:1:518) {
+  description: "Route /api/v1/renewal/at-risk couldn't be rendered 
+statically because it used `request.headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching reports: n [Error]: Dynamic server usage: Route 
+/api/v1/reports couldn't be rendered statically because it used `headers`. 
+See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at c (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\9730.js:1:59062)
+    at u (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\929.js:1:2823)
+    at i (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\2212.js:1:4220)
+    at async T (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\chunks\2212.js:1:1485)
+    at async d (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Cus
+tomer_Success_CORE_Service\.next\server\app\api\v1\reports\route.js:1:1180)
+    at async C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Custom
+er_Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-rout
+e.runtime.prod.js:6:38411
+    at async e_.execute (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tr
+ueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-ser
+ver\app-route.runtime.prod.js:6:27880)
+    at async e_.handle (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-serv
+er\app-route.runtime.prod.js:6:39943)
+    at async exportAppRoute (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\routes
+\app-route.js:77:26)
+    at async exportPageImpl (C:\Users\yasha\OneDrive\Documents\TrueVow\Curso
+r\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\export\worker
+.js:175:20) {
+  description: "Route /api/v1/reports couldn't be rendered statically 
+because it used `headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error getting renewal summary: B [Error]: Dynamic server usage: Route 
+/api/v1/renewal/summary couldn't be rendered statically because it used 
+`request.headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error
+    at V (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.r
+untime.prod.js:6:21778)
+    at Object.get (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_
+Customer_Success_CORE_Service\node_modules\next\dist\compiled\next-server\ap
+p-route.runtime.prod.js:6:29465)
+    at n (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\chunks\730.js:11:665)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\.next\server\chunks\730.js:1:3006
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\.next\server\chunks\730.js:1:2232
+    at d (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_
+Success_CORE_Service\.next\server\app\api\v1\renewal\summary\route.js:1:889)
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\compiled\next-server\app-route.runt
+ime.prod.js:6:38417
+    at C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Suc
+cess_CORE_Service\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cu
+rsor\TrueVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@
+opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\Tru
+eVow_Customer_Success_CORE_Service\node_modules\next\dist\compiled\@opentele
+metry\api\index.js:1:518) {
+  description: "Route /api/v1/renewal/summary couldn't be rendered 
+statically because it used `request.headers`. See more info here: 
+https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (44/90) 
+   Generating static pages (67/90) 
+ Γ£ô Generating static pages (90/90)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                              Size     First Load JS
+Γöî ╞Æ /                                                    142 B          87.4 kB
+Γö£ Γùï /_not-found                                          872 B          88.1 kB
+Γö£ ╞Æ /analytics                                           4.31 kB         108 kB
+Γö£ ╞Æ /api/v1/analytics/agent/[id]                         0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/agent/[id]/comparison              0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/dashboard                          0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/team                               0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/trends/analyze                     0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/trends/feedback                    0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/trends/pain-points                 0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/trends/summary                     0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/usage/churn-risk                   0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/usage/event                        0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/usage/feature-adoption             0 B                0 B
+Γö£ ╞Æ /api/v1/analytics/usage/summary                      0 B                0 B
+Γö£ ╞Æ /api/v1/auth                                         0 B                0 B
+Γö£ ╞Æ /api/v1/billing/info                                 0 B                0 B
+Γö£ ╞Æ /api/v1/billing/operations                           0 B                0 B
+Γö£ ╞Æ /api/v1/calls                                        0 B                0 B
+Γö£ ╞Æ /api/v1/calls/outbound                               0 B                0 B
+Γö£ ╞Æ /api/v1/calls/stats                                  0 B                0 B
+Γö£ ╞Æ /api/v1/crm/sync                                     0 B                0 B
+Γö£ ╞Æ /api/v1/cron/post-onboarding-flows                   0 B                0 B
+Γö£ ╞Æ /api/v1/customers/[customerId]/journey               0 B                0 B
+Γö£ ╞Æ /api/v1/customers/profile                            0 B                0 B
+Γö£ ╞Æ /api/v1/customers/subscriptions                      0 B                0 B
+Γö£ ╞Æ /api/v1/customers/transfer                           0 B                0 B
+Γö£ ╞Æ /api/v1/dashboard/master                             0 B                0 B
+Γö£ ╞Æ /api/v1/dashboard/onboarding                         0 B                0 B
+Γö£ ╞Æ /api/v1/email/test-template                          0 B                0 B
+Γö£ ╞Æ /api/v1/expansion/opportunities                      0 B                0 B
+Γö£ ╞Æ /api/v1/expansion/spikes                             0 B                0 B
+Γö£ ╞Æ /api/v1/expansion/summary                            0 B                0 B
+Γö£ ╞Æ /api/v1/expansion/triggers/evaluate                  0 B                0 B
+Γö£ ╞Æ /api/v1/faqs                                         0 B                0 B
+Γö£ ╞Æ /api/v1/faqs/[id]                                    0 B                0 B
+Γö£ ╞Æ /api/v1/faqs/categories                              0 B                0 B
+Γö£ ╞Æ /api/v1/faqs/search                                  0 B                0 B
+Γö£ Γùï /api/v1/health                                       0 B                0 B
+Γö£ ╞Æ /api/v1/health/alerts                                0 B                0 B
+Γö£ ╞Æ /api/v1/health/calculate                             0 B                0 B
+Γö£ ╞Æ /api/v1/health/history                               0 B                0 B
+Γö£ ╞Æ /api/v1/health/score                                 0 B                0 B
+Γö£ ╞Æ /api/v1/health/scores                                0 B                0 B
+Γö£ ╞Æ /api/v1/health/signals                               0 B                0 B
+Γö£ ╞Æ /api/v1/integrations/errors                          0 B                0 B
+Γö£ ╞Æ /api/v1/integrations/health                          0 B                0 B
+Γö£ ╞Æ /api/v1/integrations/internal-ops/revops/activities  0 B                0 B
+Γö£ ╞Æ /api/v1/integrations/internal-ops/tasks              0 B                0 B
+Γö£ ╞Æ /api/v1/integrations/internal-ops/time-tracking      0 B                0 B
+Γö£ ╞Æ /api/v1/integrations/status                          0 B                0 B
+Γö£ ╞Æ /api/v1/kb/articles                                  0 B                0 B
+Γö£ ╞Æ /api/v1/kb/articles/[id]                             0 B                0 B
+Γö£ ╞Æ /api/v1/kb/articles/[id]/helpful                     0 B                0 B
+Γö£ ╞Æ /api/v1/kb/categories                                0 B                0 B
+Γö£ ╞Æ /api/v1/playbooks                                    0 B                0 B
+Γö£ ╞Æ /api/v1/playbooks/[id]                               0 B                0 B
+Γö£ ╞Æ /api/v1/playbooks/[id]/execute                       0 B                0 B
+Γö£ ╞Æ /api/v1/playbooks/[id]/stats                         0 B                0 B
+Γö£ ╞Æ /api/v1/playbooks/executions                         0 B                0 B
+Γö£ ╞Æ /api/v1/playbooks/executions/[id]/outcome            0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/[id]                                 0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/at-risk                              0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/campaign/start                       0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/campaign/step                        0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/customer                             0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/forecast                             0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/risk/calculate                       0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/summary                              0 B                0 B
+Γö£ ╞Æ /api/v1/renewal/tracking                             0 B                0 B
+Γö£ ╞Æ /api/v1/reports                                      0 B                0 B
+Γö£ ╞Æ /api/v1/reports/[id]                                 0 B                0 B
+Γö£ ╞Æ /api/v1/reports/generate                             0 B                0 B
+Γö£ ╞Æ /api/v1/reports/scheduled                            0 B                0 B
+Γö£ ╞Æ /api/v1/reports/templates                            0 B                0 B
+Γö£ ╞Æ /api/v1/service/health                               0 B                0 B
+Γö£ ╞Æ /api/v1/surveys/process-resolution                   0 B                0 B
+Γö£ ╞Æ /api/v1/surveys/response                             0 B                0 B
+Γö£ ╞Æ /api/v1/surveys/send-scheduled                       0 B                0 B
+Γö£ ╞Æ /api/v1/surveys/stats                                0 B                0 B
+Γö£ ╞Æ /api/v1/team-members                                 0 B                0 B
+Γö£ ╞Æ /api/v1/test/resend-email                            0 B                0 B
+Γö£ ╞Æ /api/v1/tickets                                      0 B                0 B
+Γö£ ╞Æ /api/v1/tickets/[id]/activity                        0 B                0 B
+Γö£ ╞Æ /api/v1/tickets/[id]/notes                           0 B                0 B
+Γö£ ╞Æ /api/v1/training/enrollments                         0 B                0 B
+Γö£ ╞Æ /api/v1/training/programs                            0 B                0 B
+Γö£ ╞Æ /api/v1/training/sessions                            0 B                0 B
+Γö£ ╞Æ /api/v1/voice/outbound                               0 B                0 B
+Γö£ ╞Æ /api/v1/voice/recording                              0 B                0 B
+Γö£ ╞Æ /api/v1/voice/status                                 0 B                0 B
+Γö£ ╞Æ /api/v1/webhooks/platform/milestone                  0 B                0 B
+Γö£ ╞Æ /api/v1/webhooks/whatsapp                            0 B                0 B
+Γö£ ╞Æ /api/v1/workflows                                    0 B                0 B
+Γö£ ╞Æ /api/v1/workflows/[id]                               0 B                0 B
+Γö£ ╞Æ /api/v1/workflows/[id]/execute                       0 B                0 B
+Γö£ ╞Æ /api/v1/workflows/[id]/executions                    0 B                0 B
+Γö£ ╞Æ /api/webhooks/resend                                 0 B                0 B
+Γö£ ╞Æ /dashboard                                           10.9 kB         119 kB
+Γö£ ╞Æ /dashboard/calls                                     3 kB           97.4 kB
+Γö£ ╞Æ /dashboard/tickets                                   5.25 kB         108 kB
+Γö£ ╞Æ /knowledge-base                                      2.38 kB         106 kB
+Γö£ ╞Æ /knowledge-base/[id]/edit                            2.54 kB         106 kB
+Γö£ ╞Æ /settings                                            3.71 kB         107 kB
+Γö£ ╞Æ /settings/faqs                                       7 kB            115 kB
+Γö£ ╞Æ /sign-in/[[...sign-in]]                              202 B           128 kB
+Γöö Γùï /test                                                142 B          87.4 kB
++ First Load JS shared by all                            87.2 kB
+  Γö£ chunks/529-94774948884cba15.js                       31.5 kB
+  Γö£ chunks/fd9d1056-b6e2308868ea0627.js                  53.6 kB
+  Γöö other shared chunks (total)                          2.04 kB
+
+
+╞Æ Middleware                                             77.3 kB
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

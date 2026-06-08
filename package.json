@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3003",
+    "dev": "next dev -p 3012",
     "build": "next build",
-    "start": "next start -p 3003",
+    "start": "next start -p 3012",
     "lint": "node node_modules/next/dist/bin/next lint",
     "typecheck": "node node_modules/typescript/bin/tsc -p tsconfig.json",
     "test": "node node_modules/jest/bin/jest.js",

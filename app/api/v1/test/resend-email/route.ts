@@ -70,19 +70,13 @@ Visit our website: https://intakely.xyz
 
 This is an automated test email. Please ignore if you were not expecting it.
       `,
-      utmSource: 'cs-support',
-      utmMedium: 'email',
-      utmCampaign: 'test-integration',
-      jurisdiction: 'US',
     })
 
     return NextResponse.json({
       success: true,
       message: 'Test email sent successfully',
-      emailId: result.emailId,
-      messageId: result.messageId,
-      status: result.status,
-      unsubscribeToken: result.unsubscribeToken,
+      emailId: result.id,
+      providerId: result.providerId,
       to: toEmail,
     })
   } catch (error: any) {

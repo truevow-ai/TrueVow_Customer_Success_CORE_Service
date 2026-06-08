@@ -8,7 +8,7 @@
  * - API endpoints
  */
 
-import { createServerSupabase } from '@/lib/db/supabase'
+import { createServiceSupabase } from '@/lib/db/supabase'
 
 interface TestResult {
   test: string
@@ -31,7 +31,8 @@ async function runTest(name: string, testFn: () => Promise<void>): Promise<void>
 }
 
 async function testInboxListAPI() {
-  const supabase = createServerSupabase()
+  // Use service role for test scripts (bypasses RLS)
+  const supabase = createServiceSupabase()
   
   // Test GET /api/v1/inbox
   const { data: conversations, error } = await supabase
@@ -46,7 +47,7 @@ async function testInboxListAPI() {
 }
 
 async function testConversationDetailAPI() {
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
   
   // Get first conversation
   const { data: conversations } = await supabase
@@ -78,7 +79,7 @@ async function testConversationDetailAPI() {
 }
 
 async function testTeamMembersAPI() {
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
   
   // Test GET /api/v1/team-members
   const { data: teamMembers, error } = await supabase
@@ -93,7 +94,7 @@ async function testTeamMembersAPI() {
 }
 
 async function testTagsFeature() {
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
   
   // Get first conversation
   const { data: conversation } = await supabase
@@ -116,7 +117,7 @@ async function testTagsFeature() {
 }
 
 async function testNotesFeature() {
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
   
   // Get first ticket
   const { data: ticket } = await supabase
@@ -144,7 +145,7 @@ async function testNotesFeature() {
 }
 
 async function testAssignmentFeature() {
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
   
   // Get first ticket
   const { data: ticket } = await supabase
@@ -163,7 +164,7 @@ async function testAssignmentFeature() {
 }
 
 async function testActivityFeedTriggers() {
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
   
   // Check if activity feed has entries
   const { data: activities, error } = await supabase
@@ -183,7 +184,7 @@ async function testActivityFeedTriggers() {
 }
 
 async function testDatabaseFunctions() {
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
   
   // Test if functions exist (by checking if we can call them)
   // Note: We can't actually call them without a valid tenant_id, but we can check they exist

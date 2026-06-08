@@ -1,21 +1,33 @@
 'use client'
 
 import { UserButton } from '@clerk/nextjs'
-import { Bell, Search, Command } from 'lucide-react'
+import { Bell, Search, Command, Menu } from 'lucide-react'
 import { Input } from '@/components/shared/Input'
 import { useCommandPalette } from '@/hooks/useCommandPalette'
 import { CommandPalette } from '@/components/command-palette/CommandPalette'
 import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
 import { cn } from '@/lib/utils/cn'
 
-export function Header() {
+interface HeaderProps {
+  onMobileMenuToggle?: () => void
+}
+
+export function Header({ onMobileMenuToggle }: HeaderProps = {}) {
   const { open, setOpen } = useCommandPalette()
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background-secondary px-6">
+      <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background-secondary px-4 md:px-6">
+        {onMobileMenuToggle && (
+          <button
+            onClick={onMobileMenuToggle}
+            className="md:hidden rounded-lg p-2 text-foreground-secondary hover:bg-background transition-colors"
+            aria-label="Open navigation menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        )}
         <div className="flex flex-1 items-center gap-4">
-          {/* Command Palette Trigger */}
           <button
             onClick={() => setOpen(true)}
             className={cn(
@@ -35,21 +47,17 @@ export function Header() {
           </button>
         </div>
         <div className="flex items-center gap-4">
-          {/* Workspace Switcher */}
           <WorkspaceSwitcher />
           
-          {/* Notifications */}
           <button className="relative rounded-lg p-2 text-foreground-secondary hover:bg-background-secondary transition-colors">
             <Bell className="h-5 w-5" />
             <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500"></span>
           </button>
           
-          {/* User Menu */}
           <UserButton afterSignOutUrl="/" />
         </div>
       </header>
       
-      {/* Command Palette */}
       <CommandPalette open={open} onClose={() => setOpen(false)} />
     </>
   )

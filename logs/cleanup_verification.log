@@ -1,0 +1,40 @@
+﻿
+> truevow-cs-support-service@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Using external babel configuration from C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Success_CORE_Service\babel.config.js
+node.exe : Failed to compile.
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], 
+    RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./app/api/v1/tickets/[id]/activity/route.ts
+Module not found: Can't resolve '@/lib/repositories/activity-feed'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/api/webhooks/resend/route.ts
+Module not found: Can't resolve '@/lib/integrations/resend'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./lib/services/post-onboarding-flows.ts
+Module not found: Can't resolve './communication-sender'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./scripts/scheduled-jobs/post-onboarding-flows.ts
+./app/api/v1/cron/post-onboarding-flows/route.ts
+
+
+> Build failed because of webpack errors

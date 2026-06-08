@@ -23,7 +23,7 @@ export async function GET(
 
     const { id: workflowId } = await params
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
     const { data, error } = await supabase
       .from('workflow_definitions')
       .select('*')
@@ -38,7 +38,7 @@ export async function GET(
     }
 
     // Check access (tenant or system-wide)
-    if (data.tenant_id && data.tenant_id !== context.tenantId) {
+    if (data.tenant_id && data.tenant_id !== context.teamId) {
       return errorResponse('Forbidden', 403)
     }
 
@@ -62,7 +62,7 @@ export async function PUT(
     const { id: workflowId } = await params
     const body = await req.json()
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
 
     // Check if workflow exists and user has access
     const { data: existing, error: checkError } = await supabase
@@ -75,7 +75,7 @@ export async function PUT(
       return errorResponse('Workflow not found', 404)
     }
 
-    if (existing.tenant_id && existing.tenant_id !== context.tenantId) {
+    if (existing.tenant_id && existing.tenant_id !== context.teamId) {
       return errorResponse('Forbidden', 403)
     }
 
@@ -122,7 +122,7 @@ export async function DELETE(
 
     const { id: workflowId } = await params
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
 
     // Check if workflow exists and user has access
     const { data: existing, error: checkError } = await supabase
@@ -135,7 +135,7 @@ export async function DELETE(
       return errorResponse('Workflow not found', 404)
     }
 
-    if (existing.tenant_id && existing.tenant_id !== context.tenantId) {
+    if (existing.tenant_id && existing.tenant_id !== context.teamId) {
       return errorResponse('Forbidden', 403)
     }
 

@@ -3,7 +3,7 @@
  * Automatically runs the seed SQL file to insert default onboarding templates
  */
 
-import { createServerSupabase } from '@/lib/db/supabase'
+import { createServiceSupabase } from '@/lib/db/supabase'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
@@ -22,7 +22,7 @@ async function seedOnboardingTemplates() {
       .map(s => s.trim())
       .filter(s => s.length > 0 && !s.startsWith('--') && !s.startsWith('/*'))
 
-    const supabase = createServerSupabase()
+    const supabase = createServiceSupabase()
 
     console.log(`📄 Found ${statements.length} SQL statements to execute\n`)
 

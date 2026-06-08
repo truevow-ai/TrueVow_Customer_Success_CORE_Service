@@ -11,22 +11,19 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm">
-        <h1 className="text-4xl font-bold mb-4">CS-Support Service</h1>
-        <p className="text-lg text-gray-600">
-          Customer Success & Customer Support Service for TrueVow
+        <h1 className="text-4xl font-bold mb-4">Customer Success CORE</h1>
+        <p className="text-lg text-gray-600 mb-2">
+          Internal Customer Success CORE Service for TrueVow
         </p>
-        <div className="mt-8 space-x-4">
+        <p className="text-sm text-gray-500">
+          Access requires administrator provisioning
+        </p>
+        <div className="mt-8">
           <a
             href="/sign-in"
-            className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="inline-block px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-lg font-medium"
           >
-            Sign In
-          </a>
-          <a
-            href="/sign-up"
-            className="inline-block px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
-          >
-            Sign Up
+            Access Internal Portal
           </a>
         </div>
       </div>

@@ -1,0 +1,68 @@
+﻿
+> truevow-cs-support-service@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./components/analytics/Dashboard.tsx
+111:6  Warning: React Hook useEffect has a missing dependency: 'fetchMetrics'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/command-palette/CommandPalette.tsx
+143:6  Warning: React Hook useEffect has a missing dependency: 'handleCommandSelect'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/calls/CallHistoryDashboard.tsx
+121:6  Warning: React Hook useEffect has missing dependencies: 'fetchCalls' and 'fetchStats'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/journey/CustomerJourneyTracking.tsx
+84:6  Warning: React Hook useEffect has a missing dependency: 'fetchCustomerJourney'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/training/TrainingManagementDashboard.tsx
+117:6  Warning: React Hook useEffect has a missing dependency: 'fetchTrainingData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/health/HealthScore.tsx
+58:6  Warning: React Hook useEffect has a missing dependency: 'fetchHealthScore'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+node.exe : Failed to compile.
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], 
+    RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./components/cs-support/training/TrainingManagementDashboard.tsx:666:26
+Type error: Type '"secondary"' is not assignable to type '"default" | 
+"success" | "warning" | "danger" | "info" | undefined'.
+
+[0m [90m 664 |[39m                 [33m<[39m[33mdiv[39m 
+className[33m=[39m[32m"flex items-center 
+justify-between"[39m[33m>[39m[0m
+[0m [90m 665 |[39m                   [33m<[39m[33mspan[39m 
+className[33m=[39m[32m"text-gray-600"[39m[33m>[39m[33mCustomer[39m 
+[33mPortal[39m 
+[33mFundamentals[39m[33m<[39m[33m/[39m[33mspan[39m[33m>[39m[0m
+[0m[31m[1m>[22m[39m[90m 666 |[39m                   
+[33m<[39m[33mBadge[39m 
+variant[33m=[39m[32m"secondary"[39m[33m>[39m[35m47[39m 
+sessions[33m<[39m[33m/[39m[33mBadge[39m[33m>[39m[0m
+[0m [90m     |[39m                          [31m[1m^[22m[39m[0m
+[0m [90m 667 |[39m                 
+[33m<[39m[33m/[39m[33mdiv[39m[33m>[39m[0m
+[0m [90m 668 |[39m                 [33m<[39m[33mdiv[39m 
+className[33m=[39m[32m"flex items-center 
+justify-between"[39m[33m>[39m[0m
+[0m [90m 669 |[39m                   [33m<[39m[33mspan[39m 
+className[33m=[39m[32m"text-gray-600"[39m[33m>[39m[33mAdvanced[39m 
+[33mCase[39m 
+[33mManagement[39m[33m<[39m[33m/[39m[33mspan[39m[33m>[39m[0m
+Next.js build worker exited with code: 1 and signal: null

@@ -1,12 +1,14 @@
 /**
- * Customer Success Dashboard Component
+ * Onboarding Management Dashboard Component
  * 
- * Displays POST-ONBOARDING customer management dashboard for CSMs.
+ * Comprehensive dashboard for Customer Success Managers to manage the complete customer lifecycle.
+ * Covers pre-onboarding, onboarding, and post-onboarding stages with escalation management.
  * 
- * NOTE: This dashboard shows customers who have completed onboarding and gone live.
- * Client Success Managers manage these customers post-onboarding (health scores, success metrics, at-risk identification).
- * 
- * Onboarding workflows are handled by client_onboarding_manager role in SaaS Admin service.
+ * Core CSM Responsibilities Implemented:
+ * 1. End-to-end customer onboarding management
+ * 2. Ongoing support with escalation handling
+ * 3. Proactive customer engagement
+ * 4. Health monitoring and risk detection
  */
 
 'use client'
@@ -39,35 +41,52 @@ import { useToast } from '@/components/ui/toast'
 import { optimisticUpdate } from '@/lib/utils/optimistic-update'
 import { VirtualizedList } from '@/components/ui/virtualized-list'
 
-interface PostOnboardingCustomer {
+interface OnboardingCustomer {
   customer_id: string
   customer_email: string
   tenant_id: string
-  go_live_date: string
-  onboarding_completed_at: string
-  transferred_from_onboarding_at: string
+  go_live_date: string | null
+  onboarding_started_at: string | null
+  onboarding_completed_at: string | null
+  transferred_from_onboarding_at: string | null
   assigned_csm_id: string | null
   health_score: number | null
   churn_risk_level: 'low' | 'medium' | 'high' | 'critical' | null
+  days_since_start: number
+  days_until_go_live: number
   days_since_go_live: number
   communications_count: number
   last_communication_at: string | null
-  status: 'active' | 'at_risk' | 'healthy'
+  status: 'pre_onboarding' | 'onboarding_call' | 'configuration' | 'go_live' | 'post_onboarding' | 'at_risk' | 'completed'
+  onboarding_stage: 'preparation' | 'call_scheduled' | 'in_progress' | 'completed' | 'needs_attention'
+  escalation_count: number
+  unresolved_tickets: number
+  progress_id: string | null
   notes?: string | null
   metadata?: Record<string, any> | null
 }
 
-interface CustomerSuccessDashboardData {
+interface OnboardingDashboardData {
   summary: {
     total_customers: number
-    total_at_risk: number
-    total_healthy: number
+    pre_onboarding: number
+    in_onboarding: number
+    post_onboarding: number
+    at_risk: number
     average_health_score: number
+    escalations_today: number
+    unresolved_tickets: number
+    total_healthy: number
+    total_at_risk: number
     average_days_since_go_live: number
   }
-  active_customers: PostOnboardingCustomer[]
-  at_risk_customers: PostOnboardingCustomer[]
-  recent_transfers: PostOnboardingCustomer[]
+  active_customers: OnboardingCustomer[]
+  pre_onboarding_customers: OnboardingCustomer[]
+  onboarding_customers: OnboardingCustomer[]
+  post_onboarding_customers: OnboardingCustomer[]
+  at_risk_customers: OnboardingCustomer[]
+  escalations_needing_attention: OnboardingCustomer[]
+  recent_transfers: any[]
   communication_stats: {
     total_communications: number
     emails_sent: number
@@ -78,10 +97,10 @@ interface CustomerSuccessDashboardData {
 }
 
 export function CustomerSuccessDashboard() {
-  const [data, setData] = useState<CustomerSuccessDashboardData | null>(null)
+  const [data, setData] = useState<OnboardingDashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selectedCustomer, setSelectedCustomer] = useState<PostOnboardingCustomer | null>(null)
+  const [selectedCustomer, setSelectedCustomer] = useState<OnboardingCustomer | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [healthScoreFilter, setHealthScoreFilter] = useState<string>('all')
@@ -129,7 +148,12 @@ export function CustomerSuccessDashboard() {
   const filteredCustomers = useMemo(() => {
     if (!data) return []
 
-    let customers = [...data.active_customers, ...data.at_risk_customers]
+    let customers = [
+      ...data.pre_onboarding_customers,
+      ...data.onboarding_customers,
+      ...data.post_onboarding_customers,
+      ...data.at_risk_customers,
+    ]
 
     // Search filter
     if (searchQuery) {
@@ -161,7 +185,12 @@ export function CustomerSuccessDashboard() {
   const healthScoreDistribution = useMemo(() => {
     if (!data) return []
 
-    const active = [...data.active_customers, ...data.at_risk_customers]
+    const active = [
+      ...data.pre_onboarding_customers,
+      ...data.onboarding_customers,
+      ...data.post_onboarding_customers,
+      ...data.at_risk_customers,
+    ]
     const high = active.filter((c) => c.health_score !== null && c.health_score >= 80).length
     const medium = active.filter(
       (c) => c.health_score !== null && c.health_score >= 60 && c.health_score < 80
@@ -301,7 +330,7 @@ export function CustomerSuccessDashboard() {
     return 'text-red-600'
   }
 
-  const renderCustomerCard = (customer: PostOnboardingCustomer) => (
+  const renderCustomerCard = (customer: OnboardingCustomer) => (
     <>
       <div className="flex-1">
         <div className="flex items-center space-x-2">
@@ -645,9 +674,9 @@ export function CustomerSuccessDashboard() {
                 <div>
                   <p className="font-medium text-gray-900">{customer.customer_email}</p>
                   <p className="mt-1 text-sm text-gray-500">
-                    {milestone.completed_count} completed
-                    {milestone.average_completion_days > 0 && (
-                      <span> • Avg {milestone.average_completion_days} days</span>
+                    {customer.days_since_start} days since start
+                    {customer.health_score !== null && (
+                      <span> • Health: {customer.health_score}</span>
                     )}
                   </p>
                 </div>

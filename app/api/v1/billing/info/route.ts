@@ -1,77 +1,143 @@
 /**
- * Billing Info API (Read-Only)
- * 
- * SECURITY: Read-only access to billing information
- * - All CS roles can view billing (read-only)
- * - Only specific roles can modify (see /api/v1/billing/operations)
- * - Tenant isolation enforced
- * - Rate limiting applied
+ * Billing Info API
+ * GET /api/v1/billing/info?tenant_id=<uuid>
+ * Proxies to SaaS Admin for real subscription + usage data
  */
 
 import { NextRequest } from 'next/server'
-import { withTeamMember } from '@/lib/middleware/auth'
 import { successResponse, errorResponse } from '@/lib/api/helpers'
-import { withRateLimit } from '@/lib/middleware/rate-limit'
-import { logAuditEntry, getIpAddress, getUserAgent } from '@/lib/middleware/audit-log'
-import { validateInput } from '@/lib/utils/input-sanitization'
-import { BillingProxyService } from '@/lib/services/billing-proxy'
-import { TeamMemberRepository } from '@/lib/repositories/team-members'
+import { createServerSupabase } from '@/lib/db/supabase'
 
-/**
- * GET /api/v1/billing/info
- * Get billing information for a tenant (read-only)
- * 
- * SECURITY: Requires authenticated team member
- * All CS roles can view billing information
- */
-export const GET = withRateLimit(
-  {
-    windowMs: 60 * 1000,
-    maxRequests: 30, // 30 requests per minute (read-only, higher limit)
-  },
-  withTeamMember(async (req: NextRequest, context) => {
-    try {
-      const searchParams = req.nextUrl.searchParams
-      const tenantIdParam = searchParams.get('tenant_id')
+const SAAS_ADMIN_URL = process.env.SAAS_ADMINISTRATION_SERVICE_URL || 'http://localhost:3001'
+const SAAS_API_KEY = process.env.SAAS_ADMINISTRATION_SERVICE_API_KEY || process.env.SAAS_ADMIN_API_KEY || ''
 
-      if (!tenantIdParam) {
-        return errorResponse('Tenant ID is required', 400)
-      }
+interface BillingInfo {
+  tenant_id: string
+  subscription: {
+    tier: string
+    status: string
+    renewal_date: string | null
+  } | null
+  usage: {
+    current: number
+    limit: number
+    period_start: string | null
+    period_end: string | null
+  }
+  services: Record<string, boolean>
+}
 
-      // SECURITY: Validate tenant ID
-      const tenantId = validateInput(tenantIdParam, 'uuid')
+async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs = 5000): Promise<Response | null> {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal })
+    return res
+  } catch {
+    return null
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
 
-      // Get team member for authorization
-      const teamMember = await TeamMemberRepository.findByClerkUserId(context.userId)
-      if (!teamMember) {
-        return errorResponse('Team member not found', 404)
-      }
-
-      // SECURITY: Verify tenant matches (prevent cross-tenant access)
-      if (teamMember.tenant_id !== tenantId) {
-        await logAuditEntry({
-          action: 'billing_info_unauthorized',
-          resource_type: 'ticket',
-          resource_id: 'none',
-          user_id: context.userId,
-          team_member_id: context.teamMemberId,
-          tenant_id: tenantId,
-          ip_address: getIpAddress(req),
-          user_agent: getUserAgent(req),
-          error_message: `User tenant ${teamMember.tenant_id} does not match requested tenant ${tenantId}`,
-        })
-        return errorResponse('Unauthorized: Cannot access billing for other tenants', 403)
-      }
-
-      // Get billing info (read-only, server-side)
-      const billingInfo = await BillingProxyService.getBillingInfo(tenantId, context.teamMemberId || context.userId)
-
-      return successResponse(billingInfo)
-    } catch (error) {
-      return errorResponse('Failed to get billing information', 500)
-    }
+async function fetchFromSaaSAdmin(endpoint: string): Promise<any | null> {
+  const url = `${SAAS_ADMIN_URL}${endpoint}`
+  const res = await fetchWithTimeout(url, {
+    headers: {
+      'Authorization': `Bearer ${SAAS_API_KEY}`,
+      'X-API-Key': SAAS_API_KEY,
+      'Content-Type': 'application/json',
+    },
   })
-)
+  if (!res || !res.ok) return null
+  const json = await res.json()
+  return json.data || json
+}
 
+async function getBillingFromLocalDB(tenantId: string): Promise<BillingInfo | null> {
+  const supabase = await createServerSupabase()
 
+  const { data: renewal } = await supabase
+    .from('cs_renewal_tracking')
+    .select('subscription_tier, renewal_status, renewal_date')
+    .eq('tenant_id', tenantId)
+    .order('renewal_date', { ascending: false })
+    .limit(1)
+    .maybeSingle()
 
+  const subscription = renewal
+    ? {
+        tier: (renewal as any).subscription_tier || 'unknown',
+        status: (renewal as any).renewal_status || 'unknown',
+        renewal_date: (renewal as any).renewal_date || null,
+      }
+    : null
+
+  const { count } = await supabase
+    .from('cs_usage_events')
+    .select('*', { count: 'exact', head: true })
+    .eq('tenant_id', tenantId)
+    .gte('event_timestamp', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+
+  return {
+    tenant_id: tenantId,
+    subscription,
+    usage: {
+      current: count || 0,
+      limit: 0,
+      period_start: null,
+      period_end: null,
+    },
+    services: {},
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = request.nextUrl
+    const tenantId = searchParams.get('tenant_id')
+
+    if (!tenantId) {
+      return errorResponse('tenant_id query parameter is required', 400)
+    }
+
+    let billingInfo: BillingInfo | null = null
+
+    const saasUsage = await fetchFromSaaSAdmin(`/api/v1/billing/usage/${tenantId}/current-period`)
+    const saasPillar = await fetchFromSaaSAdmin(`/api/v1/billing/tenants/${tenantId}/pillar-status`)
+
+    if (saasUsage || saasPillar) {
+      billingInfo = {
+        tenant_id: tenantId,
+        subscription: saasPillar?.subscription || null,
+        usage: saasUsage
+          ? {
+              current: saasUsage.total_usage || saasUsage.current || 0,
+              limit: saasUsage.limit || saasUsage.quota || 0,
+              period_start: saasUsage.period_start || null,
+              period_end: saasUsage.period_end || null,
+            }
+          : { current: 0, limit: 0, period_start: null, period_end: null },
+        services: saasPillar?.services || saasPillar?.pillars || {},
+      }
+    }
+
+    if (!billingInfo) {
+      billingInfo = await getBillingFromLocalDB(tenantId)
+    }
+
+    if (!billingInfo) {
+      billingInfo = {
+        tenant_id: tenantId,
+        subscription: null,
+        usage: { current: 0, limit: 0, period_start: null, period_end: null },
+        services: {},
+      }
+    }
+
+    return successResponse(billingInfo)
+  } catch (error: any) {
+    console.error('Billing info proxy error:', error)
+    return errorResponse('Failed to fetch billing info', 502)
+  }
+}

@@ -14,7 +14,7 @@ export interface Column<T> {
   render?: (value: any, row: T) => React.ReactNode
 }
 
-interface DataTableProps<T> {
+export interface DataTableProps<T> {
   data: T[]
   columns: Column<T>[]
   searchable?: boolean

@@ -1,0 +1,46 @@
+﻿[dotenv@17.2.3] injecting env (211) from .env.local -- tip: ≡ƒôí add observability to secrets: https://dotenvx.com/ops
+
+≡ƒº¬ Unified Dialer Service Tests
+==================================================
+Supabase URL: https://inbwimykrvmxhlmwxamk.supabase.co
+==================================================
+
+
+≡ƒôï Running: Dialer Permissions Table
+   Γ£à PASS (1272ms)
+
+≡ƒôï Running: Phone Number Pools Table
+   Γ£à PASS (330ms)
+
+≡ƒôï Running: Call Logs Table
+   Γ£à PASS (309ms)
+
+≡ƒôï Running: Create Call Log
+  Γ£ô Created and deleted test call log: b2f15a7e-5b99-4739-be36-0e8c442a4373
+   Γ£à PASS (595ms)
+
+≡ƒôï Running: Update Call Log
+  Γ£ô Updated call log status to completed with 120s duration
+   Γ£à PASS (1145ms)
+
+≡ƒôï Running: Query Call Logs
+  Γ£ô Queried 2 inbound calls
+   Γ£à PASS (1391ms)
+
+≡ƒôï Running: Phone Pool Reservation
+  Γèÿ Phone pool table empty or not accessible - skipping
+   Γ£à PASS (269ms)
+
+≡ƒôï Running: Call Statistics
+  Γ£ô Call stats: 0 total, 0 inbound, 0 outbound, 0 completed, 0 failed
+   Γ£à PASS (280ms)
+
+==================================================
+≡ƒôè TEST SUMMARY
+==================================================
+Total:  8
+Passed: 8 Γ£à
+Failed: 0 Γ¥î
+Skipped: 0 Γèÿ
+
+Γ£à All tests passed!

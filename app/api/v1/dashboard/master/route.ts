@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
 
     // Get master dashboard data
     const dashboardData = await MasterDashboardService.getMasterDashboard(
-      teamMember.tenant_id,
+      teamMember.tenant_id || '',
       timeRange
     )
 

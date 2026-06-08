@@ -21,9 +21,10 @@ export async function GET(request: NextRequest) {
 
     // Update integration statuses in database
     for (const integration of health.integrations) {
+      const status = integration.status === 'unknown' ? 'degraded' : integration.status
       await IntegrationManagementService.updateIntegrationStatus(
         integration.integration_type,
-        integration.status,
+        status as 'healthy' | 'degraded' | 'down',
         integration.error_message
       )
     }

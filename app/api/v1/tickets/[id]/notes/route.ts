@@ -3,6 +3,7 @@ import { withTeamMember } from '@/lib/middleware/auth'
 import { successResponse, errorResponse, validateBody } from '@/lib/api/helpers'
 import { TicketRepository } from '@/lib/repositories/tickets'
 import { MessageRepository } from '@/lib/repositories/messages'
+import { TeamMemberRepository } from '@/lib/repositories/team-members'
 import { z } from 'zod'
 
 const noteSchema = z.object({
@@ -29,13 +30,22 @@ export async function GET(
 
       // Get all messages that are notes (internal messages)
       const messages = await MessageRepository.findByTicket(id)
+      const clerkIds = [...new Set(messages.filter(msg => msg.is_internal).map(msg => msg.from_user_id || '').filter(Boolean))]
+      const members = await Promise.all(clerkIds.map(cid => TeamMemberRepository.findByClerkUserId(cid).catch(() => null)))
+      const resolvedNames = new Map<string, string>()
+      for (const m of members) {
+        if (m) resolvedNames.set(m.clerk_user_id, (m.metadata as any)?.display_name || '')
+      }
+
       const notes = messages
         .filter((msg) => msg.is_internal)
         .map((msg) => ({
           note_id: msg.message_id,
           ticket_id: msg.ticket_id,
           user_id: msg.from_user_id || '',
-          user_name: null, // TODO: Fetch user name from team member
+          user_name: msg.from_user_id
+            ? (resolvedNames.get(msg.from_user_id) || msg.from_user_id.replace(/^user_/, 'User ').substring(0, 16))
+            : null,
           body: msg.body,
           is_internal: msg.is_internal,
           created_at: msg.created_at,

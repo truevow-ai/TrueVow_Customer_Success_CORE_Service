@@ -1,0 +1,116 @@
+# TrueVow CS Core - Repository Rules
+
+> **Gap Analysis (2026-03-10):** Reviewed checkpoint history. Found that human docs (DEVELOPER_GUIDE.md) and agent docs (SKILL.md files) must be cross-referenced. Added learned patterns to skill files.
+
+## Status Words
+
+| Status | Meaning | Action Required |
+|--------|---------|----------------|
+| DONE | Task completed, verified working | None |
+| VERIFIED | Code compiles, tests pass, manual check done | None |
+| BLOCKED | Cannot proceed, dependency missing or blocked | Escalate to orchestrator |
+| NEEDS_REVIEW | Changes ready for human review | Flag for PR review |
+| DEPRECATED | Old pattern, use new approach instead | Update callers |
+| ARCH_BOUNDARY_VIOLATION | Violates Three-Layer Intelligence Stack | Fix immediately, escalate |
+| SECURITY_SENSITIVE | Involves auth, API keys, PII | Extra review required |
+
+## Truth Commands
+
+Run these to verify the codebase state:
+
+```powershell
+# TypeScript compilation
+npm run typecheck
+
+# Linting
+npm run lint
+
+# Run all tests
+npm run test
+
+# Check specific service builds
+npm run build
+
+# Database migrations status (manual check in Supabase)
+# Connect: psql "postgresql://postgres:PASSWORD@db.inbwimykrvmxhlmwxamk.supabase.co:5432/postgres"
+# Check: SELECT id, name, executed_at FROM pg_migrations ORDER BY id;
+```
+
+## Safety Rules
+
+1. **NEVER** commit `.env.local` or any file with credentials
+2. **NEVER** compute health scores locally — always proxy to SaaS Admin
+3. **NEVER** store `lead_id` in CS Core tables — lead data lives in SaaS Admin
+4. **NEVER** use inline `fetch()` to call SaaS Admin — use `intelligence/client.ts`
+5. **NEVER** bypass RLS — always use `createServerSupabase()` for server-side, anon key for client
+6. **NEVER** add new API keys without updating `middleware/api-key.ts`
+7. **ALWAYS** mark deprecated functions with `@deprecated` and console.warn
+8. **ALWAYS** add deprecation headers when redirecting API routes
+
+## Documentation Requirements
+
+Before marking any task DONE:
+- [ ] Code compiles without errors (`npm run typecheck`)
+- [ ] Tests pass (`npm run test`)
+- [ ] API routes have JSDoc comments explaining purpose
+- [ ] Service methods have clear @param and @returns
+- [ ] Database migrations have clear comments explaining WHY
+- [ ] Architectural decisions documented in `docs/`
+
+## Environment Awareness
+
+- **Dev:** `npm run dev` runs on port 3061
+- **Staging:** Deployed to Vercel (check project settings)
+- **Production:** Separate Vercel project (verify in team docs)
+- **Local DB:** Supabase `inbwimykrvmxhlmwxamk`
+- **SaaS Admin:** Runs on port 3001 (required for health scores)
+
+## Key Boundaries
+
+| Boundary | Rule |
+|----------|------|
+| Intelligence | CS Core displays, SaaS Admin computes |
+| Leads | CS Core never stores — SaaS Admin owns |
+| Auth | Clerk App 1 for CSMs, never mix apps |
+| Billing | Proxy only, never own billing data |
+
+## File Naming Conventions
+
+| Type | Convention | Example |
+|------|------------|---------|
+| Migration | `NNN_description.sql` | `044_remove_lead_references.sql` |
+| Service | `kebab-case.ts` | `health-scoring.ts` |
+| Repository | `kebab-case.ts` | `customer-health.ts` |
+| API Route | `route.ts` | `app/api/v1/health/route.ts` |
+| Component | `PascalCase.tsx` | `CustomerTickets.tsx` |
+| Agent | `agent-definitions.ts` | `libs/core/agents/agent-definitions.ts` |
+
+## Common Patterns
+
+### Adding a New API Route
+1. Create `app/api/v1/{domain}/{action}/route.ts`
+2. Use `requireInternalUser()` from `libs/core/security`
+3. Import repositories from `libs/core/repositories/`
+4. Use `createServerSupabase()` for DB access
+5. Return `NextResponse.json({ ... })`
+
+### Adding a New Service
+1. Create `libs/core/services/{name}.ts`
+2. Export a class with static methods
+3. No HTTP concerns — pure business logic
+4. Add to `libs/core/services/index.ts` if needed
+
+### Adding a New Repository
+1. Create `libs/core/repositories/{name}.ts`
+2. Wrap Supabase queries
+3. Return typed objects, not raw Supabase responses
+
+### Adding a New Database Table
+1. Create migration in `infra/database/migrations/NNN_{name}.sql`
+2. Add RLS policies in same file or separate
+3. Update seed.sql if test data needed
+4. Document in DEVELOPER_GUIDE.md
+
+---
+
+**Version:** 1.0 | **Updated:** 2026-03-10

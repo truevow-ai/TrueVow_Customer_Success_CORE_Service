@@ -12,6 +12,13 @@ import {
   BarChart3,
   Settings,
   HelpCircle,
+  Phone,
+  Heart,
+  RefreshCw,
+  BookMarked,
+  Star,
+  UserPlus,
+  Brain,
 } from 'lucide-react'
 
 interface NavItem {
@@ -21,11 +28,25 @@ interface NavItem {
 }
 
 const navigation: NavItem[] = [
-  { name: 'Dashboard', href: '/dashboard/dashboard', icon: LayoutDashboard },
+  // Primary Functions
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Onboarding', href: '/dashboard/onboarding', icon: UserPlus },
   { name: 'Inbox', href: '/dashboard/inbox', icon: Inbox },
   { name: 'Tickets', href: '/dashboard/tickets', icon: Ticket },
+  
+  // Customer Success Tools
+  { name: 'Health Scores', href: '/dashboard/health', icon: Heart },
+  { name: 'Renewals', href: '/dashboard/renewals', icon: RefreshCw },
+  { name: 'Playbooks', href: '/dashboard/playbooks', icon: BookMarked },
+  { name: 'Surveys', href: '/dashboard/surveys', icon: Star },
+  
+  // Communication
+  { name: 'Calls', href: '/dashboard/calls', icon: Phone },
+  
+  // Resources
   { name: 'Knowledge Base', href: '/dashboard/knowledge-base', icon: BookOpen },
   { name: 'Team', href: '/dashboard/team', icon: Users },
+  { name: 'Portfolio Intelligence', href: '/dashboard/intelligence', icon: Brain },
   { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]

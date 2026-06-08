@@ -8,7 +8,7 @@
  * 4. Report retrieval
  */
 
-import { createServerSupabase } from '@/lib/db/supabase'
+import { createServiceSupabase } from '@/lib/db/supabase'
 import { ReportGeneratorService } from '@/lib/services/report-generator'
 import { ScheduledReportsService } from '@/lib/services/scheduled-reports'
 
@@ -18,7 +18,7 @@ const TEST_USER_ID = process.env.TEST_USER_ID || 'user_test_123'
 
 async function testReportTemplates() {
   console.log('\n📋 Testing Report Templates...')
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
 
   // Create a test template
   const testTemplate = {
@@ -164,7 +164,7 @@ async function testScheduledReports() {
 
 async function cleanup(testTemplateId?: string) {
   console.log('\n🧹 Cleaning up test data...')
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
 
   if (testTemplateId) {
     // Delete test template and related reports

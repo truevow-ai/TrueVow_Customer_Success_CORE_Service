@@ -17,11 +17,16 @@ import { withTeamMember } from '@/lib/middleware/auth'
  * GET /api/v1/faqs/[id]
  * Get FAQ by ID
  */
-export const GET = withTeamMember(async (
+export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) => {
+) {
   try {
+    const { userId } = await auth()
+    if (!userId) {
+      return errorResponse('Unauthorized', 401)
+    }
+
     const { id } = await params
     const faq = await FAQRepositoryService.getFAQById(id)
 
@@ -34,16 +39,16 @@ export const GET = withTeamMember(async (
     console.error('Error in GET /api/v1/faqs/[id]:', error)
     return errorResponse('Failed to fetch FAQ', 500)
   }
-})
+}
 
 /**
  * PUT /api/v1/faqs/[id]
  * Update FAQ
  */
-export const PUT = withTeamMember(async (
+export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) => {
+) {
   try {
     const { userId } = await auth()
     if (!userId) {
@@ -53,7 +58,7 @@ export const PUT = withTeamMember(async (
     const { id } = await params
     const body = await req.json()
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
 
     // Build update object (only include provided fields)
     const updateData: any = {
@@ -101,20 +106,20 @@ export const PUT = withTeamMember(async (
     console.error('Error in PUT /api/v1/faqs/[id]:', error)
     return errorResponse('Failed to update FAQ', 500)
   }
-})
+}
 
 /**
  * DELETE /api/v1/faqs/[id]
  * Soft delete FAQ (set is_active = false)
  */
-export const DELETE = withTeamMember(async (
+export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) => {
+) {
   try {
     const { id } = await params
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
 
     const { data: faq, error } = await supabase
       .from('cs_faq_entries')
@@ -137,4 +142,4 @@ export const DELETE = withTeamMember(async (
     console.error('Error in DELETE /api/v1/faqs/[id]:', error)
     return errorResponse('Failed to delete FAQ', 500)
   }
-})
+}

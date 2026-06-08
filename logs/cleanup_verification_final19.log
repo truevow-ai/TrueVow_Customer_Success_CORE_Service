@@ -1,0 +1,65 @@
+﻿
+> truevow-cs-support-service@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Using external babel configuration from C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Success_CORE_Service\babel.config.js
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Using external babel configuration from C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Success_CORE_Service\babel.config.js
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./components/analytics/Dashboard.tsx
+111:6  Warning: React Hook useEffect has a missing dependency: 'fetchMetrics'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/command-palette/CommandPalette.tsx
+143:6  Warning: React Hook useEffect has a missing dependency: 'handleCommandSelect'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/calls/CallHistoryDashboard.tsx
+121:6  Warning: React Hook useEffect has missing dependencies: 'fetchCalls' and 'fetchStats'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/journey/CustomerJourneyTracking.tsx
+84:6  Warning: React Hook useEffect has a missing dependency: 'fetchCustomerJourney'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/training/TrainingManagementDashboard.tsx
+117:6  Warning: React Hook useEffect has a missing dependency: 'fetchTrainingData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/health/HealthScore.tsx
+58:6  Warning: React Hook useEffect has a missing dependency: 'fetchHealthScore'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+node.exe : Failed to compile.
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], 
+    RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./components/shared/DataTable.tsx:152:28
+Type error: Type '{ children: string; colSpan: number; className: string; 
+}' is not assignable to type 'IntrinsicAttributes & TableCellProps'.
+  Property 'colSpan' does not exist on type 'IntrinsicAttributes & 
+TableCellProps'.
+
+[0m [90m 150 |[39m             {paginatedData[33m.[39mlength 
+[33m===[39m [35m0[39m [33m?[39m ([0m
+[0m [90m 151 |[39m               
+[33m<[39m[33mTableRow[39m[33m>[39m[0m
+[0m[31m[1m>[22m[39m[90m 152 |[39m                 
+[33m<[39m[33mTableCell[39m colSpan[33m=[39m{columns[33m.[39mlength} 
+className[33m=[39m[32m"text-center py-8 
+text-gray-500"[39m[33m>[39m[0m
+[0m [90m     |[39m                            [31m[1m^[22m[39m[0m
+[0m [90m 153 |[39m                   [33mNo[39m data found[0m
+[0m [90m 154 |[39m                 
+[33m<[39m[33m/[39m[33mTableCell[39m[33m>[39m[0m
+[0m [90m 155 |[39m               
+[33m<[39m[33m/[39m[33mTableRow[39m[33m>[39m[0m
+Next.js build worker exited with code: 1 and signal: null

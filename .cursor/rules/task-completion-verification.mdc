@@ -1,5 +1,5 @@
 ---
-description: Zero-tolerance policy for task completion verification - requires tests or manual proof before marking tasks as DONE
+description: Zero-tolerance policy for task completion verification - requires tests or manual proof before marking tasks as DONE. Enforces TrueVow three-layer intelligence architecture boundaries.
 alwaysApply: true
 ---
 
@@ -71,3 +71,111 @@ If a task genuinely cannot have tests (e.g., documentation-only, config changes)
 - Document why test is not applicable
 - Provide alternative verification (e.g., manual review checklist)
 - Still require proof of completion (screenshot, output, etc.)
+
+---
+
+# TrueVow Three-Layer Intelligence Architecture Boundary Rules
+
+## PERMANENT — NEVER VIOLATE
+
+These rules must be enforced on every code change, migration, and new feature.
+
+## The Three Layers
+
+```
+Layer 1 — Tenant Application (Intake Intelligence)
+  Owns: lead data, intake signals, lead quality scores
+  Emits: events to portal_behavior_events (in SaaS Admin)
+
+Layer 2 — SaaS Admin (Behavioral Intelligence Engine)
+  Owns: portal_behavior_events, tenant_behavior_metrics,
+         health_scores, recommendations, recommendation_outcomes
+  Computes: all behavioral intelligence
+
+Layer 3 — CS Core (Operational Intelligence — Display Only)
+  Owns: cs_tickets, cs_team_members, cs_customer_post_onboarding
+  Never: owns lead data, computes intelligence, caches health scores
+```
+
+## Rule 1: Lead Data Lives in SaaS Admin Only
+
+**CS Core must NEVER:**
+- Create a `leads` table
+- Add a `lead_id` column to any CS Core table
+- Store intake signals: `injury_severity`, `liability_strength`, `evidence_strength`,
+  `damages_estimate`, `insurance_coverage`, `sol_risk`, `medical_treatment`
+- Run `LeadScorer` logic
+- Compute `lead_strength_score`
+
+**Correct pattern:**
+```typescript
+// WRONG — CS Core querying leads
+const leads = await supabase.from('leads').select('*')
+
+// CORRECT — CS Core requests intelligence from SaaS Admin
+const health = await getHealthScore(tenantId, email)
+const recs = await getRecommendations(tenantId)
+```
+
+## Rule 2: Health Scores Computed in SaaS Admin Only
+
+**CS Core must NEVER:**
+- Call `HealthScoringService.calculateHealthScore()` with local computation
+- Cache health scores in CS Core's own database
+- Store `engagement_score`, `usage_score`, `churn_risk` locally
+
+**Correct pattern:**
+```typescript
+// WRONG — CS Core computing health locally
+const score = await this.calculateEngagementScore(tenantId, email)
+
+// CORRECT — CS Core proxies to SaaS Admin
+const response = await getHealthScore(tenantId, email) // intelligence/client.ts
+```
+
+## Rule 3: Recommendations Generated in SaaS Admin Only
+
+**CS Core must NEVER:**
+- Generate recommendation text locally
+- Run `generateRecommendedActions()` logic in CS Core code
+- Store the `recommendations` table in CS Core's database
+
+**Correct pattern:**
+```typescript
+// WRONG — CS Core generating recommendations
+const actions = this.generateRecommendedActions(score, level, components)
+
+// CORRECT — CS Core fetches from SaaS Admin
+const recs = await getRecommendations(tenantId) // intelligence/client.ts
+```
+
+## Rule 4: All Events Flow Through SaaS Admin Event Store
+
+- `portal_behavior_events` is an **append-only** table owned by SaaS Admin
+- CS Core must never write behavior events locally
+- CS Core may **emit events to SaaS Admin** via API, never directly to its own DB
+
+## Rule 5: Database Table Ownership
+
+| Table | Owner | CS Core Access |
+|-------|-------|----------------|
+| `leads` | SaaS Admin / Tenant App | None |
+| `portal_behavior_events` | SaaS Admin | None (emit via API) |
+| `health_scores` | SaaS Admin | Read via proxy API |
+| `recommendations` | SaaS Admin | Read via proxy API |
+| `recommendation_outcomes` | SaaS Admin | Write via proxy API |
+| `tenant_behavior_metrics` | SaaS Admin | Read via proxy API |
+| `cs_tickets` | CS Core | Full ownership |
+| `cs_customer_post_onboarding` | CS Core | Full ownership |
+| `cs_team_members` | CS Core | Full ownership |
+
+## Enforcement Checklist (Run Before Every Migration or Service Change)
+
+- [ ] No `lead_id` column added to any CS Core table
+- [ ] No `leads` table created in CS Core database
+- [ ] No intake signal fields in CS Core schema
+- [ ] No local health score computation in CS Core services
+- [ ] No local health score caching in CS Core services
+- [ ] No recommendation generation logic in CS Core services
+- [ ] All intelligence access goes through `libs/core/intelligence/client.ts`
+- [ ] `service_type` in CS Core tables never includes `sales_crm`

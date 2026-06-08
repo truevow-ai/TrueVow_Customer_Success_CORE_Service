@@ -1,0 +1,59 @@
+﻿
+> truevow-cs-support-service@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Using external babel configuration from C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Success_CORE_Service\babel.config.js
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./components/analytics/Dashboard.tsx
+111:6  Warning: React Hook useEffect has a missing dependency: 'fetchMetrics'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/command-palette/CommandPalette.tsx
+143:6  Warning: React Hook useEffect has a missing dependency: 'handleCommandSelect'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/calls/CallHistoryDashboard.tsx
+121:6  Warning: React Hook useEffect has missing dependencies: 'fetchCalls' and 'fetchStats'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/journey/CustomerJourneyTracking.tsx
+84:6  Warning: React Hook useEffect has a missing dependency: 'fetchCustomerJourney'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/training/TrainingManagementDashboard.tsx
+117:6  Warning: React Hook useEffect has a missing dependency: 'fetchTrainingData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/health/HealthScore.tsx
+58:6  Warning: React Hook useEffect has a missing dependency: 'fetchHealthScore'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+node.exe : Failed to compile.
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], 
+    RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./app/api/v1/faqs/route.ts:149:37
+Type error: Argument of type 'number' is not assignable to parameter of 
+type 'string'.
+
+[0m [90m 147 |[39m     }[0m
+[0m [90m 148 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 149 |[39m     [36mreturn[39m 
+successResponse({ faq }[33m,[39m [35m201[39m)[0m
+[0m [90m     |[39m                                     
+[31m[1m^[22m[39m[0m
+[0m [90m 150 |[39m   } [36mcatch[39m (error[33m:[39m any) {[0m
+[0m [90m 151 |[39m     console[33m.[39merror([32m'Error in POST 
+/api/v1/faqs:'[39m[33m,[39m error)[0m
+[0m [90m 152 |[39m     [36mreturn[39m errorResponse([32m'Failed to 
+create FAQ'[39m[33m,[39m [35m500[39m)[0m
+Next.js build worker exited with code: 1 and signal: null

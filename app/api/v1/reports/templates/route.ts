@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
 
     const { data: template, error } = await supabase
       .from('cs_report_templates')
@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
     const templateType = searchParams.get('template_type')
     const isActive = searchParams.get('is_active')
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
     let query = supabase.from('cs_report_templates').select('*')
 
     if (tenantId) {

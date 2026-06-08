@@ -2,82 +2,177 @@
 @tailwind components;
 @tailwind utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer base {
   :root {
-    /* Unified Design System - Sidebar Colors (HSL format) */
-    --sidebar: 299 64% 15%; /* #3F0E40 - Dark Purple */
-    --sidebar-foreground: 0 0% 100%; /* White */
-    --sidebar-border: 299 64% 20%; /* #522653 - Lighter purple for borders */
+    /* Slack-Inspired Design System - Light Mode */
     
-    /* Active State (HSL format) */
-    --active: 205 80% 35%; /* #1264A3 - Blue */
-    --active-foreground: 0 0% 100%; /* White */
+    /* Sidebar Colors (consistent across themes) */
+    --sidebar-bg: 282 64% 20%; /* #4A154B - Slack Purple (Aubergine) */
+    --sidebar-text: 0 0% 100%; /* White text */
+    --sidebar-text-muted: 0 0% 70%; /* Muted white */
+    --sidebar-hover: 282 64% 25%; /* Slightly lighter purple */
+    --sidebar-active: 206 74% 37%; /* #1264A3 - Blue highlight */
     
-    /* Main Area - Light Mode (HSL format) */
-    --background: 0 0% 100%; /* White */
-    --foreground: 0 0% 10%; /* Dark text */
-    --background-secondary: 0 0% 98%; /* Very light gray */
-    --foreground-secondary: 0 0% 45%; /* Medium gray */
-    --border: 0 0% 90%; /* Light border */
+    /* Primary Colors */
+    --primary: 206 74% 37%; /* #1264A3 - Blue (matches active state) */
+    --primary-foreground: 0 0% 100%; /* White */
+    --primary-hover: 206 74% 32%; /* Darker blue on hover */
     
-    /* Spacing Scale */
-    --spacing-xs: 0.25rem;   /* 4px */
-    --spacing-sm: 0.5rem;    /* 8px */
-    --spacing-md: 1rem;      /* 16px */
-    --spacing-lg: 1.5rem;    /* 24px */
-    --spacing-xl: 2rem;      /* 32px */
-    --spacing-2xl: 3rem;     /* 48px */
-    --spacing-3xl: 4rem;     /* 64px */
+    /* Background Colors - Light Mode */
+    --background: 0 0% 97%; /* #F8F8F8 - Light gray (Slack-style) */
+    --foreground: 0 0% 13%; /* #222222 - Dark text */
+    --background-secondary: 0 0% 95%; /* #F2F2F2 - Slightly darker gray */
     
-    /* Typography Scale */
-    --text-xs: 0.75rem;      /* 12px */
-    --text-sm: 0.875rem;     /* 14px */
-    --text-base: 1rem;       /* 16px */
-    --text-lg: 1.125rem;     /* 18px */
-    --text-xl: 1.25rem;      /* 20px */
-    --text-2xl: 1.5rem;      /* 24px */
-    --text-3xl: 1.875rem;    /* 30px */
-    --text-4xl: 2.25rem;     /* 36px */
+    /* Card & Surface Colors */
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 0 0% 13%; /* Dark text */
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
     
-    /* Legacy support (for existing components) */
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 255, 255, 255;
-    --background-end-rgb: 255, 255, 255;
+    /* Secondary Colors */
+    --secondary: 0 0% 96%; /* Light gray */
+    --secondary-foreground: 0 0% 13%;
+    
+    /* Muted Colors */
+    --muted: 0 0% 96%; /* Light gray background */
+    --muted-foreground: 0 0% 45%; /* Gray text */
+    
+    /* Accent Colors */
+    --accent: 206 74% 95%; /* Very light blue */
+    --accent-foreground: 206 74% 37%; /* Blue text */
+    
+    /* Semantic Colors */
+    --success: 142 71% 45%; /* Green */
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%; /* Amber */
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%; /* Red */
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border & Input */
+    --border: 0 0% 88%; /* Light gray border */
+    --input: 0 0% 88%;
+    --ring: 206 74% 37%; /* Blue focus ring */
+    
+    /* Chart Colors */
+    --chart-1: 142 71% 45%; /* Green */
+    --chart-2: 206 74% 37%; /* Blue */
+    --chart-3: 38 92% 50%; /* Amber */
+    --chart-4: 282 64% 20%; /* Purple */
+    --chart-5: 0 84% 60%; /* Red */
+    
+    /* Radius */
+    --radius: 0.5rem;
+
+    /* Legacy sidebar variables for backward compatibility */
+    --sidebar: 282 64% 20%; /* #4A154B - Slack aubergine purple */
+    --sidebar-foreground: 0 0% 100%; /* White text */
+    --sidebar-border: 299 71% 24%; /* Slightly lighter purple for borders */
+    
+    /* Active State: Blue Highlight (#1264A3) */
+    --active: 206 74% 37%; /* #1264A3 - Blue */
+    --active-foreground: 0 0% 100%; /* White text on active */
+
+    --foreground-secondary: 215 15% 40%;
+    --foreground-muted: 215 15% 55%;
+
+    --border-hover: 220 15% 80%;
+
+    /* Chart accents (purple kept as supporting color, not main UI chrome) */
+    --chart-purple: 268 89% 66%;
+    --chart-blue: 199 89% 55%;
+
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
   }
 
   .dark {
-    /* Main Area - Dark Mode (HSL format) */
-    --background: 0 0% 10%; /* #1A1A1A - Dark charcoal */
-    --foreground: 0 0% 100%; /* White text */
-    --background-secondary: 0 0% 15%; /* Slightly lighter */
-    --foreground-secondary: 0 0% 70%; /* Light gray */
-    --border: 0 0% 25%; /* Dark border */
+    /* Slack-Inspired Design System - Dark Mode */
     
-    /* Sidebar remains the same in dark mode */
-    --sidebar: 299 64% 15%; /* #3F0E40 */
-    --sidebar-foreground: 0 0% 100%; /* White */
-    --sidebar-border: 299 64% 20%; /* #522653 */
+    /* Sidebar Colors (same as light mode) */
+    --sidebar-bg: 282 64% 20%; /* #4A154B - Slack Purple (Aubergine) */
+    --sidebar-text: 0 0% 100%;
+    --sidebar-text-muted: 0 0% 70%;
+    --sidebar-hover: 282 64% 25%;
+    --sidebar-active: 206 74% 37%; /* #1264A3 - Blue highlight */
     
-    /* Legacy support */
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 26, 26, 26;
-    --background-end-rgb: 26, 26, 26;
+    /* Primary Colors */
+    --primary: 206 74% 37%; /* #1264A3 - Blue */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 206 74% 42%; /* Lighter blue on hover in dark mode */
+    
+    /* Background Colors - Dark Mode */
+    --background: 0 0% 10%; /* #1A1A1A - Dark Charcoal */
+    --foreground: 0 0% 95%; /* Light text */
+    --background-secondary: 0 0% 14%; /* Slightly lighter charcoal */
+    
+    /* Card & Surface Colors */
+    --card: 0 0% 14%; /* Dark surface */
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 14%;
+    --popover-foreground: 0 0% 95%;
+    
+    /* Secondary Colors */
+    --secondary: 0 0% 18%; /* Dark gray */
+    --secondary-foreground: 0 0% 95%;
+    
+    /* Muted Colors */
+    --muted: 0 0% 18%; /* Dark gray background */
+    --muted-foreground: 0 0% 65%; /* Gray text */
+    
+    /* Accent Colors */
+    --accent: 206 74% 25%; /* Darker blue */
+    --accent-foreground: 0 0% 100%;
+    
+    /* Semantic Colors */
+    --success: 142 71% 45%; /* Green */
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 55%; /* Amber */
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 70% 55%; /* Red */
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border & Input */
+    --border: 0 0% 25%; /* Dark gray border */
+    --input: 0 0% 25%;
+    --ring: 206 74% 37%; /* Blue focus ring */
+
+    /* Legacy sidebar variables for backward compatibility */
+    --sidebar: 282 64% 20%; /* #4A154B - Slack aubergine purple (same as light mode) */
+    --sidebar-foreground: 0 0% 100%; /* White text */
+    --sidebar-border: 299 71% 24%;
+
+    /* Active State: Blue Highlight (same in dark mode) */
+    --active: 206 74% 37%; /* #1264A3 - Blue */
+    --active-foreground: 0 0% 100%; /* White text */
+
+    --foreground-secondary: 0 0% 85%;
+    --foreground-muted: 0 0% 70%;
+
+    --border-hover: 0 0% 30%;
+  }
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-feature-settings: "rlig" 1, "calt" 1;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 
-  body {
-    color: hsl(var(--foreground));
-    background-color: hsl(var(--background));
-    /* Legacy gradient support */
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(var(--background-end-rgb))
-      )
-      rgb(var(--background-start-rgb));
+  /* Smooth transitions for theme changes */
+  .theme-transition {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 }
 

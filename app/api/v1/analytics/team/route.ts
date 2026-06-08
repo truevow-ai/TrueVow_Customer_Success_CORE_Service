@@ -26,11 +26,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'tenant_id is required' }, { status: 400 })
     }
 
-    const teamMetrics = await AgentPerformanceService.getTeamMetrics(
-      tenantId,
-      periodStart,
-      periodEnd
-    )
+    const teamMetrics = await AgentPerformanceService.getTeamPerformance()
 
     return NextResponse.json({ data: teamMetrics })
   } catch (error: any) {

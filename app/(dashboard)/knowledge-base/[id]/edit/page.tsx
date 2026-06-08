@@ -3,7 +3,9 @@ import { KBArticleEditor } from '@/components/kb/KBArticleEditor'
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs'
 import { Loading } from '@/components/shared/Loading'
 
-export default function EditKBArticlePage({ params }: { params: Promise<{ id: string }> }) {
+export default async function EditKBArticlePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  
   return (
     <div className="space-y-6">
       <Breadcrumbs
@@ -14,7 +16,7 @@ export default function EditKBArticlePage({ params }: { params: Promise<{ id: st
       />
 
       <Suspense fallback={<Loading />}>
-        <KBArticleEditor params={params} />
+        <KBArticleEditor articleId={id} />
       </Suspense>
     </div>
   )

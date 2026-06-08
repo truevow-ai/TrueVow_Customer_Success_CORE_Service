@@ -22,7 +22,7 @@ export async function GET(
     const { id: workflowId } = await params
     const { page, limit, offset } = getPagination(req)
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
     const { data, error, count } = await supabase
       .from('workflow_executions')
       .select('*', { count: 'exact' })

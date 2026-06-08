@@ -1,15 +1,24 @@
 /**
- * Health Score Calculation API
- * 
+ * Health Score Calculation API (PROXY LAYER)
+ *
+ * @deprecated This endpoint is deprecated. Use /api/intelligence/health/calculate instead.
+ *
  * POST /api/v1/health/calculate
- * Calculate or recalculate health score for a customer
+ * Calculate or recalculate health score for a customer.
+ *
+ * ARCHITECTURAL BOUNDARY ENFORCEMENT:
+ * - This endpoint now proxies to SaaS Admin
+ * - CS Core does NOT compute health scores locally
+ * - The actual calculation happens in SaaS Admin
+ *
+ * Migration Date: 2026-03-08
  */
 
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { withTeamMember } from '@/lib/middleware/auth'
-import { successResponse, errorResponse, validateBody } from '@/lib/api/helpers'
+import { errorResponse, validateBody } from '@/lib/api/helpers'
 import { withRateLimit } from '@/lib/middleware/rate-limit'
-import { HealthScoringService } from '@/lib/services/health-scoring'
+import { calculateHealthScore } from '@/lib/intelligence/client'
 import { z } from 'zod'
 
 const calculateSchema = z.object({
@@ -31,10 +40,36 @@ export const POST = withRateLimit(
 
       const { tenantId, customerEmail } = validation.data
 
-      // Calculate health score
-      const healthScore = await HealthScoringService.calculateHealthScore(tenantId, customerEmail)
+      // Proxy to SaaS Admin - NO local computation
+      const response = await calculateHealthScore(tenantId, customerEmail)
 
-      return successResponse(healthScore, 'Health score calculated successfully')
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+        return NextResponse.json(
+          { error: errorData.error || 'Failed to calculate health score in SaaS Admin' },
+          { status: response.status }
+        )
+      }
+
+      const healthScore = await response.json()
+
+      // Add deprecation header
+      return NextResponse.json(
+        {
+          success: true,
+          data: healthScore,
+          message: 'Health score calculated successfully',
+          _deprecated: 'This endpoint is deprecated. Use /api/intelligence/health/calculate instead.'
+        },
+        {
+          status: 200,
+          headers: {
+            'X-Deprecated': 'true',
+            'X-Deprecation-Message': 'Use /api/intelligence/health/calculate instead',
+            'X-Migration-Date': '2026-03-08'
+          }
+        }
+      )
     } catch (error) {
       return errorResponse(
         error instanceof Error ? error.message : 'Failed to calculate health score',
@@ -43,6 +78,3 @@ export const POST = withRateLimit(
     }
   })
 )
-
-
-

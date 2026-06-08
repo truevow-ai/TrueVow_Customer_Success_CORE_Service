@@ -11,7 +11,6 @@ import { NextRequest } from 'next/server'
 import { withTeamMember } from '@/lib/middleware/auth'
 import { successResponse, errorResponse } from '@/lib/api/helpers'
 import { CustomerSuccessDashboardService } from '@/lib/services/customer-success-dashboard'
-import { createServerSupabase } from '@/lib/db/supabase'
 import { hasAnyRole } from '@/lib/services/user-mapping'
 
 /**
@@ -29,24 +28,12 @@ export async function GET(req: NextRequest) {
         return errorResponse('Access denied. Client Success Manager role required for customer success dashboard.', 403)
       }
 
-      // Get user's tenant ID
-      const supabase = createServerSupabase()
+      // Get user's member_id from context
       const userId = context.userId || context.teamMemberId || ''
 
-      const { data: teamMember, error: teamError } = await supabase
-        .from('cs_team_members')
-        .select('tenant_id')
-        .eq('clerk_user_id', userId)
-        .single()
-
-      if (teamError || !teamMember) {
-        return errorResponse('Team member not found', 404)
-      }
-
-      const tenantId = teamMember.tenant_id
-
       // Get dashboard data (post-onboarding customers only)
-      const dashboardData = await CustomerSuccessDashboardService.getDashboardData(tenantId)
+      // Note: tenant_id is not required for CS dashboard - team members support all customers
+      const dashboardData = await CustomerSuccessDashboardService.getDashboardData(userId)
 
       return successResponse(dashboardData)
     } catch (error) {

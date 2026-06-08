@@ -1,104 +1,124 @@
-/**
+﻿/**
  * Customer Transfer API
- * 
+ *
  * POST /api/v1/customers/transfer - Transfer customer from SaaS Admin to CS-Support
- * 
- * Called by SaaS Admin service after customer accepts go-live.
- * Creates post-onboarding customer record and assigns Client Success Manager.
- * 
- * SECURITY: This endpoint should be protected with API key authentication
- * from SaaS Admin service.
+ *
+ * SECURITY: Service-to-service endpoint protected by Bearer API key.
+ * Set SAAS_ADMIN_API_KEY in CS-Support .env.local to match
+ * CS_SUPPORT_API_KEY set in SaaS Admin .env.local.
  */
 
-import { NextRequest } from 'next/server'
-import { withTeamMember } from '@/lib/middleware/auth'
+import { NextRequest, NextResponse } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/api/helpers'
 import { CustomerTransferService } from '@/lib/services/customer-transfer'
+import { AttributionReporter } from '@/lib/services/attribution-reporter'
+
+// â”€â”€â”€ Service-to-service API key validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function validateServiceApiKey(request: NextRequest): boolean {
+  const apiKey = process.env.SAAS_ADMIN_API_KEY || ''
+  if (!apiKey) {
+    console.error('SAAS_ADMIN_API_KEY is not configured â€” rejecting transfer request')
+    return false
+  }
+  const authHeader = request.headers.get('authorization') || ''
+  const bearerToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : ''
+  return bearerToken === apiKey
+}
 
 /**
  * POST /api/v1/customers/transfer
- * Transfer customer from SaaS Admin to CS-Support after go-live
- * 
- * Request Body:
+ * Transfer customer from SaaS Admin after go-live.
+ *
+ * Payload sent by SaaS Admin law-firm-onboarding.ts â†’ transferToCSSupport():
  * {
- *   "customer_id": "uuid" (optional),
- *   "tenant_id": "uuid",
- *   "customer_email": "string",
- *   "go_live_date": "ISO timestamp",
- *   "onboarding_completed_at": "ISO timestamp",
- *   "assigned_csm_id": "uuid" (optional),
- *   "initial_health_score": number (optional),
- *   "notes": "string" (optional),
- *   "metadata": {} (optional)
+ *   tenant_id: string
+ *   customer_email: string
+ *   assigned_csm_id: string | null
+ *   go_live_date: string | null
+ *   onboarding_completion_percentage: number
+ *   source_service: "saas_admin"
+ *   transferred_at: string          <-- used as onboarding_completed_at
  * }
- * 
- * Access: Should be called by SaaS Admin service (API key protected)
  */
-export async function POST(req: NextRequest) {
-  // TODO: Add API key authentication for SaaS Admin service
-  // For now, using team member auth as fallback
-  return withTeamMember(async (req: NextRequest, context) => {
-    try {
-      const body = await req.json()
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  if (!validateServiceApiKey(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
-      // Validate required fields
-      if (!body.tenant_id || !body.customer_email || !body.go_live_date || !body.onboarding_completed_at) {
-        return errorResponse(
-          'Missing required fields: tenant_id, customer_email, go_live_date, onboarding_completed_at',
-          400
-        )
-      }
+  try {
+    const body = await req.json()
 
-      // Transfer customer
-      const result = await CustomerTransferService.transferCustomer({
-        customer_id: body.customer_id,
-        tenant_id: body.tenant_id,
-        customer_email: body.customer_email,
-        go_live_date: body.go_live_date,
-        onboarding_completed_at: body.onboarding_completed_at,
-        assigned_csm_id: body.assigned_csm_id || null,
-        initial_health_score: body.initial_health_score || null,
-        notes: body.notes || null,
-        metadata: body.metadata || null,
-      })
+    // Accept both field naming conventions
+    const goLiveDate   = body.go_live_date || body.transferred_at
+    const completedAt  = body.onboarding_completed_at || body.transferred_at
 
-      return successResponse(result)
-    } catch (error) {
-      console.error('Customer transfer error:', error)
+    if (!body.tenant_id || !body.customer_email || !goLiveDate || !completedAt) {
       return errorResponse(
-        error instanceof Error ? error.message : 'Failed to transfer customer',
-        500
+        'Missing required fields: tenant_id, customer_email, and go_live_date (or transferred_at)',
+        400,
       )
     }
-  })(req)
+
+    const result = await CustomerTransferService.transferCustomer({
+      customer_id:             body.customer_id,
+      tenant_id:               body.tenant_id,
+      customer_email:          body.customer_email,
+      go_live_date:            goLiveDate,
+      onboarding_completed_at: completedAt,
+      assigned_csm_id:         body.assigned_csm_id ?? null,
+      initial_health_score:    body.initial_health_score ?? null,
+      notes:                   body.notes ?? null,
+      metadata: {
+        ...body.metadata,
+        source_service:                   body.source_service || 'saas_admin',
+        onboarding_completion_percentage: body.onboarding_completion_percentage ?? null,
+      },
+    })
+
+    // Report attribution to Internal Ops
+    await AttributionReporter.reportCustomerTransfer(body.tenant_id, 'success', {
+      customer_email: body.customer_email,
+      tier: body.metadata?.tier,
+    })
+
+    return successResponse(result)
+  } catch (error) {
+    console.error('Customer transfer error:', error)
+    // Idempotency: already transferred is not a hard failure
+    if (error instanceof Error && error.message.includes('already transferred')) {
+      return successResponse({ already_transferred: true, message: error.message })
+    }
+    return errorResponse(
+      error instanceof Error ? error.message : 'Failed to transfer customer',
+      500,
+    )
+  }
 }
 
 /**
  * GET /api/v1/customers/transfer?customer_email=...&tenant_id=...
- * Check transfer status for a customer
+ * Check transfer status (also accepts API key for SaaS Admin polling).
  */
-export async function GET(req: NextRequest) {
-  return withTeamMember(async (req: NextRequest, context) => {
-    try {
-      const { searchParams } = new URL(req.url)
-      const customerEmail = searchParams.get('customer_email')
-      const tenantId = searchParams.get('tenant_id')
+export async function GET(req: NextRequest): Promise<NextResponse> {
+  if (!validateServiceApiKey(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
-      if (!customerEmail || !tenantId) {
-        return errorResponse('Missing required query parameters: customer_email, tenant_id', 400)
-      }
+  try {
+    const { searchParams } = new URL(req.url)
+    const customerEmail = searchParams.get('customer_email')
+    const tenantId      = searchParams.get('tenant_id')
 
-      const status = await CustomerTransferService.getTransferStatus(customerEmail, tenantId)
-
-      return successResponse(status)
-    } catch (error) {
-      return errorResponse(
-        error instanceof Error ? error.message : 'Failed to get transfer status',
-        500
-      )
+    if (!customerEmail || !tenantId) {
+      return errorResponse('Missing required query parameters: customer_email, tenant_id', 400)
     }
-  })(req)
+
+    const status = await CustomerTransferService.getTransferStatus(customerEmail, tenantId)
+    return successResponse(status)
+  } catch (error) {
+    return errorResponse(
+      error instanceof Error ? error.message : 'Failed to get transfer status',
+      500,
+    )
+  }
 }
-
-
-

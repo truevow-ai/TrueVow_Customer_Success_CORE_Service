@@ -16,7 +16,7 @@ export const GET = withTeamMember(async (req: NextRequest, context) => {
     // Format for dropdown
     const formatted = teamMembers.map((member) => ({
       value: member.member_id,
-      label: member.clerk_user_id, // TODO: Get actual name from user profile
+      label: (member.metadata as any)?.display_name || member.clerk_user_id.replace(/^user_/, 'User ').substring(0, 16),
       role: member.role,
     }))
 

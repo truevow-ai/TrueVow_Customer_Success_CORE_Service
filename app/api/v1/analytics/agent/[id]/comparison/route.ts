@@ -9,7 +9,7 @@ import { verifyApiKey } from '@/lib/middleware/api-key'
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check authentication (Clerk or API key)
@@ -20,22 +20,18 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const agentId = params.id
+    const { id: agentId } = await params
     const { searchParams } = new URL(request.url)
     const tenantId = searchParams.get('tenant_id')
-    const periodStart = searchParams.get('period_start') || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-    const periodEnd = searchParams.get('period_end') || new Date().toISOString()
+    const compareWith = searchParams.get('compare_with')?.split(',') || []
 
     if (!tenantId) {
       return NextResponse.json({ error: 'tenant_id is required' }, { status: 400 })
     }
 
-    const comparison = await AgentPerformanceService.getAgentComparison(
-      agentId,
-      tenantId,
-      periodStart,
-      periodEnd
-    )
+    // Get comparison data - pass agent IDs as array
+    const agentIds = [agentId, ...compareWith]
+    const comparison = await AgentPerformanceService.getAgentComparison(agentIds)
 
     if (!comparison) {
       return NextResponse.json({ error: 'Agent not found' }, { status: 404 })

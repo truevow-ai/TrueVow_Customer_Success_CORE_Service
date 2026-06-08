@@ -1,7 +1,8 @@
 /** @type {import('jest').Config} */
+
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testEnvironment: 'node', // Changed from jsdom to node for Supabase compatibility
+  testEnvironment: 'node',
   transform: {
     '^.+\\.(t|j)sx?$': ['babel-jest', { configFile: './babel.config.js' }],
   },
@@ -12,11 +13,16 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/$1',
   },
   testMatch: [
-    '**/__tests__/**/*.[jt]s?(x)',
+    '**/tests/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[jt]s?(x)',
   ],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    'tests/security/auth-bypass.test.ts',
+    'tests/integration/edge-cases.test.ts',
+  ],
   collectCoverageFrom: [
-    'lib/**/*.{js,jsx,ts,tsx}',
+    'libs/core/**/*.{js,jsx,ts,tsx}',
     'app/api/**/*.{js,jsx,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',

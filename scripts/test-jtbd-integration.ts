@@ -14,7 +14,7 @@
  * - Internal Ops Service should be accessible (or mocked)
  */
 
-import { createServerSupabase } from '@/lib/db/supabase'
+import { createServiceSupabase } from '@/lib/db/supabase'
 import { OnboardingSequencesService } from '@/lib/services/onboarding-sequences'
 
 // Test configuration
@@ -56,7 +56,7 @@ async function testStartOnboardingWithTemplateKey() {
     console.log(`   Sequence ID: ${progress.sequence_id}`)
 
     // Fetch sequence to verify JTBD
-    const supabase = createServerSupabase()
+    const supabase = createServiceSupabase()
     const { data: sequence, error: seqError } = await supabase
       .from('cs_onboarding_sequences')
       .select('sequence_id, template_key, jtbd, name')
@@ -90,7 +90,7 @@ async function testGetOnboardingProgressWithJTBD(progressId: string, sequenceId:
   console.log('─'.repeat(60))
 
   try {
-    const supabase = createServerSupabase()
+    const supabase = createServiceSupabase()
     
     // Query onboarding progress with sequence join to get JTBD
     const { data: progressData, error } = await supabase
@@ -288,7 +288,7 @@ async function testStartOnboardingWithoutTemplateKey() {
     createdOnboardingProgressIds.push(progress.progress_id)
 
     // Verify default sequence was used
-    const supabase = createServerSupabase()
+    const supabase = createServiceSupabase()
     const { data: sequence } = await supabase
       .from('cs_onboarding_sequences')
       .select('sequence_id, template_key, jtbd, is_default')
@@ -347,7 +347,7 @@ async function testGetSequenceByTemplateKey() {
  */
 async function cleanup() {
   console.log('\n🧹 Cleaning up test data...')
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
 
   try {
     // Delete onboarding progress

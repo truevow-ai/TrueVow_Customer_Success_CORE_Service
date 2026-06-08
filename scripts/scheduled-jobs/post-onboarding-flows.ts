@@ -14,7 +14,7 @@
  * - Vercel Cron Jobs
  */
 
-import { createServerSupabase } from '@/lib/db/supabase'
+import { createServiceSupabase } from '@/lib/db/supabase'
 import { PostOnboardingFlowsService } from '@/lib/services/post-onboarding-flows'
 import { HealthScoringService } from '@/lib/services/health-scoring'
 import { UsageAnalyticsService } from '@/lib/services/usage-analytics'
@@ -23,7 +23,8 @@ async function processPostOnboardingFlows() {
   console.log('🔄 Starting Post-Onboarding Flows Processing')
   console.log('=' .repeat(80))
 
-  const supabase = createServerSupabase()
+  // Use service role for background jobs (bypasses RLS)
+  const supabase = createServiceSupabase()
   let processedCount = 0
   let errorCount = 0
 

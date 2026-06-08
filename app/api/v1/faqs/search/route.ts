@@ -12,30 +12,17 @@ import { successResponse, errorResponse } from '@/lib/api/helpers'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { query, category, tenant_id, min_confidence = 0.6 } = body
+    const { query } = body
 
     if (!query || typeof query !== 'string') {
       return errorResponse('Query is required', 400)
     }
 
-    const result = await FAQRepositoryService.searchFAQ({
-      query,
-      category,
-      tenant_id,
-      min_confidence,
-    })
-
-    // Increment usage if FAQ found
-    if (result.faq) {
-      await FAQRepositoryService.incrementUsage(result.faq.faq_id)
-    }
+    const results = await FAQRepositoryService.searchFAQs(query)
 
     return successResponse({
-      ...result,
-      // Format response for agent use
-      formatted_answer: result.faq
-        ? FAQRepositoryService.formatFAQResponse(result.faq, query)
-        : null,
+      results,
+      count: results.length,
     })
   } catch (error: any) {
     console.error('Error searching FAQs:', error)

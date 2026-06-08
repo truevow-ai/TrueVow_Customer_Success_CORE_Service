@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const tenant_id = searchParams.get('tenant_id') || undefined
 
-    const categories = await FAQRepositoryService.getCategories(tenant_id)
+    const categories = await FAQRepositoryService.getAllCategories()
 
     return successResponse({ categories })
   } catch (error: any) {

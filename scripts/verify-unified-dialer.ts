@@ -4,7 +4,7 @@
  * Verifies all components of the unified dialer integration
  */
 
-import { createServerSupabase } from '../lib/db/supabase'
+import { createServiceSupabase } from '../lib/db/supabase'
 
 interface VerificationResult {
   name: string
@@ -23,7 +23,7 @@ function addResult(name: string, status: 'pass' | 'fail' | 'warning', message: s
 async function verifyDatabaseTables() {
   console.log('\n📊 Verifying Database Tables...\n')
 
-  const supabase = createServerSupabase()
+  const supabase = createServiceSupabase()
 
   // Check dialer_permissions table
   try {

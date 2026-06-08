@@ -56,15 +56,17 @@ export function TableRow({ children, className, onClick }: TableRowProps) {
 interface TableHeadProps {
   children: ReactNode
   className?: string
+  onClick?: () => void
 }
 
-export function TableHead({ children, className }: TableHeadProps) {
+export function TableHead({ children, className, onClick }: TableHeadProps) {
   return (
     <th
       className={cn(
         'px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-foreground-secondary bg-background-secondary',
         className
       )}
+      onClick={onClick}
     >
       {children}
     </th>
@@ -74,11 +76,12 @@ export function TableHead({ children, className }: TableHeadProps) {
 interface TableCellProps {
   children: ReactNode
   className?: string
+  colSpan?: number
 }
 
-export function TableCell({ children, className }: TableCellProps) {
+export function TableCell({ children, className, colSpan }: TableCellProps) {
   return (
-    <td className={cn('px-4 py-3 text-sm text-foreground', className)}>
+    <td className={cn('px-4 py-3 text-sm text-foreground', className)} colSpan={colSpan}>
       {children}
     </td>
   )

@@ -6,42 +6,80 @@
 
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { usePathname } from 'next/navigation'
 import { PrimaryNav } from '@/components/navigation/PrimaryNav'
 import { SecondaryNav } from '@/components/navigation/SecondaryNav'
 import { Header } from '@/components/layout/Header'
 import { ToastProvider } from '@/components/ui/toast'
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
+import { Menu, X } from 'lucide-react'
+import { cn } from '@/lib/utils/cn'
 
 export function DashboardLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [isPrimaryCollapsed, setIsPrimaryCollapsed] = useState(true)
   const [selectedModule, setSelectedModule] = useState<string | null>(null)
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
-  // Detect module from pathname
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   useEffect(() => {
     const activeModule = pathname?.split('/')[2] || null
     setSelectedModule(activeModule)
+    setMobileNavOpen(false)
   }, [pathname])
 
-  // Calculate content margin
-  const contentMarginLeft = isPrimaryCollapsed
-    ? (selectedModule ? '320px' : '64px')      // 64px + 256px if secondary shown
-    : (selectedModule ? '512px' : '256px')     // 256px + 256px if secondary shown
+  const toggleMobileNav = useCallback(() => setMobileNavOpen(v => !v), [])
+
+  const contentMarginLeft = isMobile
+    ? '0'
+    : isPrimaryCollapsed
+      ? (selectedModule ? '320px' : '64px')
+      : (selectedModule ? '512px' : '256px')
 
   return (
     <ToastProvider>
       <ErrorBoundary>
         <div className="flex h-screen bg-background">
-          <PrimaryNav onModuleSelect={setSelectedModule} />
-          <SecondaryNav config={null} isPrimaryCollapsed={isPrimaryCollapsed} />
+          <div className={cn(
+            isMobile ? (mobileNavOpen ? 'fixed inset-0 z-50 flex' : 'hidden') : 'flex'
+          )}>
+            {isMobile ? (
+              <>
+                <div className="flex">
+                  <PrimaryNav onModuleSelect={setSelectedModule} />
+                  <SecondaryNav config={null} isPrimaryCollapsed={isPrimaryCollapsed} />
+                </div>
+                <button
+                  onClick={toggleMobileNav}
+                  className="fixed top-4 right-4 z-50 rounded-full bg-background border p-2 shadow-lg md:hidden"
+                  aria-label="Close navigation"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </>
+            ) : (
+              <>
+                <PrimaryNav onModuleSelect={setSelectedModule} />
+                <SecondaryNav config={null} isPrimaryCollapsed={isPrimaryCollapsed} />
+              </>
+            )}
+          </div>
           <div
             className="flex flex-1 flex-col overflow-hidden transition-all duration-200"
             style={{ marginLeft: contentMarginLeft }}
           >
-            <Header />
-            <main className="flex-1 overflow-y-auto bg-background p-6 text-foreground">
+            <Header
+              onMobileMenuToggle={isMobile ? toggleMobileNav : undefined}
+            />
+            <main className="flex-1 overflow-y-auto bg-background p-4 md:p-6 text-foreground">
               {children}
             </main>
           </div>

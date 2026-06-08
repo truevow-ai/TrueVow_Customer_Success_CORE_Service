@@ -63,8 +63,7 @@ export const GET = withTeamMember(async (req: NextRequest, context) => {
     let healthLevel = null
     if (tenantId) {
       try {
-        const health = await CustomerHealthRepository.getAtRiskCustomers(tenantId)
-        const customerHealth = health.find((h) => h.tenant_id === tenantId)
+        const customerHealth = await CustomerHealthRepository.findByTenant(tenantId)
         if (customerHealth) {
           healthScore = customerHealth.health_score
           healthLevel = customerHealth.health_level

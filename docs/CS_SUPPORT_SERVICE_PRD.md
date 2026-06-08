@@ -1,10 +1,10 @@
-# Customer Success & Customer Support Service - Product Requirements Document (PRD)
+# Customer Success CORE Service - Product Requirements Document (PRD)
 
-**Version:** 1.2  
-**Date:** January 15, 2026  
-**Status:** Active Development - Recent Implementations Complete  
+**Version:** 2.0  
+**Date:** February 15, 2026  
+**Status:** CS-Support Split COMPLETE (Customer-Success-CORE v2.0 + First-Line-Support v1.0)  
 **Owner:** TrueVow Product Team  
-**Service:** CS-Support Service (Port 3003)
+**Service:** Customer-Success-CORE-Service (Port 3003)
 
 ---
 
@@ -34,7 +34,9 @@
 ## Executive Summary
 
 ### Purpose
-The **Customer Success & Customer Support (CS-Support) Service** is a dedicated service within TrueVow's 5-service architecture that handles all customer-facing support operations, customer success initiatives, and multi-channel communication management. It serves as the central hub for customer interactions, support ticket management, knowledge base, and team collaboration for the support organization.
+The **Customer-Success-CORE-Service** is a dedicated service within TrueVow's 6-service architecture that handles all internal customer success operations, tenant health monitoring, and success initiative management. It serves as the central hub for customer success managers and internal teams to monitor tenant health, manage onboarding workflows, track churn risk, and coordinate renewal activities.
+
+The **First-Line-Support-Service** handles all customer-facing support operations, multi-channel communication management, and AI-powered support interactions.
 
 ### Key Value Propositions
 - **Unified Customer Support:** Single platform for all customer support operations
@@ -91,13 +93,13 @@ The CS-Support Service is a **Next.js-based web application** (or FastAPI backen
 
 ## Service Architecture Context
 
-### TrueVow 5-Service Architecture
+### TrueVow 6-Service Architecture
 
-The CS-Support Service is part of TrueVow's enterprise architecture:
+The CS-Support services (CORE + First-Line) are part of TrueVow's enterprise architecture:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│              TRUEVOW 5-SERVICE ARCHITECTURE                 │
+│              TRUEVOW 6-SERVICE ARCHITECTURE                 │
 └─────────────────────────────────────────────────────────────┘
 
 1. Platform Service (Port 3000)
@@ -112,26 +114,44 @@ The CS-Support Service is part of TrueVow's enterprise architecture:
    - Demos & onboarding
    - Frontend: Standalone Next.js app
 
-3. CS-Support Service (Port 3003) ⭐ THIS SERVICE
-   - Support tickets
-   - Shared Inbox
-   - Knowledge Base
-   - Customer Success
-   - SLA tracking
+3. Customer-Success-CORE-Service (Port 3003) ⭐ THIS SERVICE
+   - Customer Success dashboards
+   - Tenant health scoring
+   - Onboarding management
+   - Playbooks
+   - Churn risk detection
+   - Renewal orchestration
+   - JTBD integration
+   - RevOps integration
+   - Time tracking
    - Frontend: Standalone Next.js app (THIS SERVICE)
+   - Clerk App 1 (HIGH TRUST)
+   - LLM-free
 
-4. Internal Ops Service (Port 3004)
+4. First-Line-Support-Service (Port 3008)
+   - Multi-channel inbox
+   - AI digital agents (Benjamin)
+   - Knowledge Base
+   - CSAT/NPS
+   - Voice agents
+   - Ticket management
+   - SLA management
+   - Frontend: Standalone Next.js app
+   - Clerk App 2 (MEDIUM TRUST)
+   - LLM-enabled
+
+5. Internal Ops Service (Port 3004)
    - Internal operations
    - HR, IT, Admin
    - Internal shared inbox
    - Frontend: Standalone Next.js app
 
-5. Tenant Application (Port 8000)
+6. Tenant Application (Port 8000)
    - Multi-tenant backend
    - INTAKE, DRAFT, SETTLE, CONNECT, VERIFY APIs
    - Frontend: Customer Portal (separate Next.js app)
 
-6. SaaS Admin (Port 3001) - Centralized Admin Dashboard
+7. SaaS Admin (Port 3001) - Centralized Admin Dashboard
    - Centralized authentication (Clerk)
    - Admin dashboard
    - System configuration
@@ -144,11 +164,11 @@ The CS-Support Service is part of TrueVow's enterprise architecture:
 
 ### **1. Standalone Service Structure** ✅
 
-**CS-Support Service is a completely standalone service:**
+**Customer-Success-CORE-Service is a completely standalone service:**
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│         CS-SUPPORT SERVICE (Standalone)                         │
+│    CUSTOMER-SUCCESS-CORE-SERVICE (Standalone, LLM-free)          │
 │                                                                 │
 │  ┌──────────────────────────────────────────────────────────┐  │
 │  │  Repository: TrueVow-CS-Support/                          │  │
@@ -774,7 +794,8 @@ export async function getCurrentTeamMember() {
 - ✅ **Shared Clerk App (Approach 1):** SSO across all services
 - ✅ **Independent Deployment:** Can deploy without affecting other services
 - ✅ **Service Isolation:** Complete independence from other services
-- ✅ **LLM Isolation:** Only CS-Support Service has LLM access (critical security)
+- ✅ **LLM Isolation:** Only First-Line-Support-Service has LLM access (critical security)
+- ❌ **Customer-Success-CORE-Service:** NO LLM ACCESS (internal-only)
 
 **Key Benefits:**
 
@@ -2010,7 +2031,8 @@ Benjamin: "Hi [Customer Name]! Good to talk with you again. I remember we were w
 **🚨 CRITICAL SECURITY REQUIREMENT - NO EXCEPTIONS**
 
 **LLM Access Restriction:**
-- ✅ **CS-Support Service:** Has direct LLM access (Claude, Kimi) - **ONLY SERVICE WITH LLM ACCESS FOR SUPPORT**
+- ✅ **First-Line-Support-Service:** Has direct LLM access (Claude, Kimi) - **ONLY SERVICE WITH LLM ACCESS FOR SUPPORT**
+- ❌ **Customer-Success-CORE-Service:** NO LLM ACCESS (internal-only)
 - ✅ **Sales-CRM Service:** Has direct LLM access (Claude, Kimi) - **ONLY SERVICE WITH LLM ACCESS FOR SALES**
 - ❌ **Customer Portal (Tenant App Service):** **NO LLM ACCESS** - Must call CS-Support Service APIs
 - ❌ **Platform Service:** **NO LLM ACCESS**
@@ -2051,10 +2073,10 @@ Claude/Kimi LLM
 **Customer Portal Integration Pattern:**
 ```typescript
 // Customer Portal (Tenant App Service)
-// ✅ CORRECT: Call CS-Support Service API
-import { CSSupportClient } from '@/lib/integrations/cs-support'
+// ✅ CORRECT: Call First-Line-Support-Service API
+import { FirstLineSupportClient } from '@/lib/integrations/first-line-support'
 
-const client = new CSSupportClient(process.env.CS_SUPPORT_API_URL, process.env.CS_SUPPORT_API_KEY)
+const client = new FirstLineSupportClient(process.env.FIRST_LINE_SUPPORT_API_URL, process.env.FIRST_LINE_SUPPORT_API_KEY)
 const response = await client.chatWithBenjamin(customerId, message)
 
 // ❌ WRONG: Direct LLM call (BLOCKED)
@@ -4064,14 +4086,15 @@ POST /api/v1/customer-success/playbooks/{playbook_id}/trigger
 **🚨 CRITICAL SECURITY REQUIREMENT - NO EXCEPTIONS**
 
 **Authorized LLM Access:**
-- ✅ **CS-Support Service:** Only service with LLM access for customer support and success operations
+- ✅ **First-Line-Support-Service:** Only service with LLM access for customer support and success operations
+- ❌ **Customer-Success-CORE-Service:** NO LLM ACCESS (internal-only)
 - ✅ **Sales-CRM Service:** Only service with LLM access for sales operations
 - ❌ **All Other Services:** NO LLM ACCESS (Customer Portal, Platform Service, Internal Ops Service)
 
 **Security Controls:**
 - **Environment Variable Isolation:** LLM API keys (Claude, Kimi) only in CS-Support Service `.env` files
 - **Code Import Restrictions:** Automated CI/CD checks prevent LLM SDK imports in non-authorized services
-- **Service-to-Service Authentication:** Customer Portal must use API keys to call CS-Support Service (no direct LLM access)
+- **Service-to-Service Authentication:** Customer Portal must use API keys to call First-Line-Support-Service (no direct LLM access)
 - **API Gateway Pattern:** All AI agent interactions from Customer Portal route through CS-Support Service APIs
 - **Audit Logging:** All LLM API calls logged with service identification, user, timestamp, and request/response metadata
 
@@ -4470,13 +4493,14 @@ export class TenantAppClient {
 **🚨 CRITICAL SECURITY REQUIREMENT - NO EXCEPTIONS**
 
 #### Purpose
-Customer Portal (Tenant App Service) integrates with CS-Support Service for AI agent interactions (Benjamin), support ticket submission, and knowledge base access. **Customer Portal MUST NOT have direct LLM access.**
+Customer Portal (Tenant App Service) integrates with First-Line-Support-Service for AI agent interactions (Benjamin), support ticket submission, and knowledge base access. **Customer Portal MUST NOT have direct LLM access.**
 
 #### Security Requirements
 
 **LLM Access Restriction:**
 - ❌ **Customer Portal:** **NO LLM ACCESS** - Must call CS-Support Service APIs
-- ✅ **CS-Support Service:** Has direct LLM access (Claude, Kimi) - **ONLY AUTHORIZED SERVICE**
+- ✅ **First-Line-Support-Service:** Has direct LLM access (Claude, Kimi) - **ONLY AUTHORIZED SERVICE**
+- ❌ **Customer-Success-CORE-Service:** NO LLM ACCESS (internal-only)
 
 **Implementation Pattern:**
 ```
@@ -5518,7 +5542,7 @@ Reports & Dashboards
 - **Shared Inbox Summary:** `SHARED_INBOX_MODULE_SUMMARY.md` (SaaS Admin)
 - **Migration Recommendation:** `SHARED_INBOX_MIGRATION_RECOMMENDATION.md` (SaaS Admin)
 - **Sales Access Analysis:** `SHARED_INBOX_SALES_ACCESS_ANALYSIS.md` (SaaS Admin)
-- **5-Service Architecture:** `TRUEVOW_ENTERPRISE_ARCHITECTURE_5_SERVICES.md` (SaaS Admin)
+- **6-Service Architecture:** `TRUEVOW_ENTERPRISE_ARCHITECTURE_5_SERVICES.md` (SaaS Admin; update to 6-service when doc is revised)
 
 **Tenant Application Documentation:**
 - **TrueVow PRD:** `docs/project-rules/TrueVow_PRD.md` (Tenant App)

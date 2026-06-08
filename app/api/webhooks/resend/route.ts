@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     const eventType = body.type
     const eventData = body.data || {}
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
 
     switch (eventType) {
       case 'email.sent':

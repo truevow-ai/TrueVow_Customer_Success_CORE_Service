@@ -1,0 +1,64 @@
+﻿
+> truevow-cs-support-service@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Using external babel configuration from C:\Users\yasha\OneDrive\Documents\TrueVow\Cursor\TrueVow_Customer_Success_CORE_Service\babel.config.js
+node.exe : <w> [webpack.cache.PackFileCacheStrategy] Caching failed for 
+pack: Error: EBUSY: resource busy or locked, rename 'C:\Users\yasha\OneDrive
+\Documents\TrueVow\Cursor\TrueVow_Customer_Success_CORE_Service\.next\cache\
+webpack\server-production\0.pack_' -> 'C:\Users\yasha\OneDrive\Documents\Tru
+eVow\Cursor\TrueVow_Customer_Success_CORE_Service\.next\cache\webpack\server
+-production\0.pack'
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<w> [webpack.ca...duction\0.pa 
+   ck':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./components/analytics/Dashboard.tsx
+111:6  Warning: React Hook useEffect has a missing dependency: 'fetchMetrics'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/command-palette/CommandPalette.tsx
+143:6  Warning: React Hook useEffect has a missing dependency: 'handleCommandSelect'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/calls/CallHistoryDashboard.tsx
+121:6  Warning: React Hook useEffect has missing dependencies: 'fetchCalls' and 'fetchStats'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/journey/CustomerJourneyTracking.tsx
+84:6  Warning: React Hook useEffect has a missing dependency: 'fetchCustomerJourney'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/cs-support/training/TrainingManagementDashboard.tsx
+117:6  Warning: React Hook useEffect has a missing dependency: 'fetchTrainingData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/health/HealthScore.tsx
+58:6  Warning: React Hook useEffect has a missing dependency: 'fetchHealthScore'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+Failed to compile.
+
+./lib/services/master-dashboard.ts:256:7
+Type error: Type 'DashboardMetrics' is missing the following properties 
+from type '{ ticket_volume: any; response_time: any; resolution_time: any; 
+csat: any; agent_performance: any; }': ticket_volume, response_time, 
+resolution_time, agent_performance
+
+[0m [90m 254 |[39m     [36mreturn[39m {[0m
+[0m [90m 255 |[39m       summary[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m 256 |[39m       support[33m:[39m 
+supportMetrics[33m,[39m[0m
+[0m [90m     |[39m       [31m[1m^[22m[39m[0m
+[0m [90m 257 |[39m       health[33m:[39m healthData[33m,[39m[0m
+[0m [90m 258 |[39m       usage[33m:[39m usageData[33m,[39m[0m
+[0m [90m 259 |[39m       renewals[33m:[39m renewalData[33m,[39m[0m
+Next.js build worker exited with code: 1 and signal: null

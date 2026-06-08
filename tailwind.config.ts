@@ -10,13 +10,15 @@ const config: Config = {
     extend: {
       colors: {
         sidebar: {
-          DEFAULT: 'hsl(var(--sidebar))',
-          foreground: 'hsl(var(--sidebar-foreground))',
+          DEFAULT: 'hsl(var(--sidebar-bg))',
+          foreground: 'hsl(var(--sidebar-text))',
           border: 'hsl(var(--sidebar-border))',
+          accent: 'hsl(var(--sidebar-active))',
+          'accent-foreground': 'hsl(var(--sidebar-text))',
         },
         active: {
-          DEFAULT: 'hsl(var(--active))',
-          foreground: 'hsl(var(--active-foreground))',
+          DEFAULT: 'hsl(var(--sidebar-active))',
+          foreground: 'hsl(var(--sidebar-text))',
         },
         background: {
           DEFAULT: 'hsl(var(--background))',

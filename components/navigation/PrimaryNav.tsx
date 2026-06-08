@@ -17,10 +17,12 @@ import { cn } from '@/lib/utils/cn'
 import {
   LayoutDashboard,
   Ticket,
+  Phone,
   BookOpen,
   Users,
   BarChart3,
   Settings,
+  Brain,
 } from 'lucide-react'
 
 interface NavItem {
@@ -32,8 +34,10 @@ interface NavItem {
 const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/dashboard/dashboard', icon: LayoutDashboard },
   { name: 'Tickets', href: '/dashboard/tickets', icon: Ticket },
+  { name: 'Calls', href: '/dashboard/calls', icon: Phone },
   { name: 'Knowledge Base', href: '/dashboard/knowledge-base', icon: BookOpen },
   { name: 'Team', href: '/dashboard/team', icon: Users },
+  { name: 'Intelligence', href: '/dashboard/intelligence', icon: Brain },
   { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]

@@ -38,6 +38,7 @@ export function DialerToggle() {
   const [toggling, setToggling] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const { showToast } = useToast()
 
   // Fetch permissions on mount
   useEffect(() => {

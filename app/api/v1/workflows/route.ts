@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     const triggerType = searchParams.get('trigger_type') || undefined
     const { page, limit, offset } = getPagination(req)
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
     let query = supabase
       .from('workflow_definitions')
       .select('*', { count: 'exact' })
@@ -35,8 +35,8 @@ export async function GET(req: NextRequest) {
       query = query.eq('trigger_type', triggerType)
     }
 
-    if (context.tenantId) {
-      query = query.or(`tenant_id.is.null,tenant_id.eq.${context.tenantId}`)
+    if (context.teamId) {
+      query = query.or(`tenant_id.is.null,tenant_id.eq.${context.teamId}`)
     } else {
       query = query.is('tenant_id', null)
     }
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
       return errorResponse('Missing required fields', 400)
     }
 
-    const supabase = createServerSupabase()
+    const supabase = await createServerSupabase()
     const { data, error } = await supabase
       .from('workflow_definitions')
       .insert({
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
         conditions,
         actions,
         created_by: context.userId,
-        tenant_id: context.tenantId,
+        tenant_id: context.teamId,
         is_active: true,
       })
       .select()
