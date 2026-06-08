@@ -10,12 +10,16 @@ const customJestConfig = {
     'node_modules/(?!(@supabase|@babel)/)',
   ],
   moduleNameMapper: {
+    '^@/lib/(.*)$': '<rootDir>/libs/core/$1',
+    '^@/types/(.*)$': '<rootDir>/libs/types/$1',
+    '^@/hooks/(.*)$': '<rootDir>/libs/hooks/$1',
     '^@/(.*)$': '<rootDir>/$1',
   },
   testMatch: [
     '**/tests/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[jt]s?(x)',
   ],
+  roots: ['<rootDir>'],
   testPathIgnorePatterns: [
     '/node_modules/',
     'tests/security/auth-bypass.test.ts',
@@ -38,7 +42,6 @@ const customJestConfig = {
     },
   },
   testTimeout: 10000,
-  transformIgnorePatterns: ['node_modules/(?!(@supabase)/)'],
 }
 
 module.exports = customJestConfig
