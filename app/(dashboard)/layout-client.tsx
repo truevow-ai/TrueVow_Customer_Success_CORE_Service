@@ -15,6 +15,7 @@ import { ToastProvider } from '@/components/ui/toast'
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
+import { Softphone } from '@/components/softphone/Softphone'
 
 export function DashboardLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -84,6 +85,7 @@ export function DashboardLayoutClient({ children }: { children: React.ReactNode 
             </main>
           </div>
         </div>
+        <Softphone />
       </ErrorBoundary>
     </ToastProvider>
   )
