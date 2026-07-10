@@ -248,6 +248,39 @@ Before marking any work complete, run it through these:
 
 ---
 
+## Report to the Orchestrator — Mandatory Session Protocol
+
+You are not working alone. This service reports to the TrueVow CTO Orchestrator, whose **only** real-time visibility into your work comes from two channels: your **git state** and your **check-ins**. If you never check in, the orchestrator dashboard shows this service as `NEGLECTED`, the CTO is flying blind, and stalled or half-finished work stays invisible.
+
+A task is not "done" until the check-in is posted. **Intent is not completion.**
+
+**Start of every session:**
+```
+python ../TrueVow_Shared_Orchestration/orchestrator.py sync-memory
+python ../TrueVow_Shared_Orchestration/orchestrator.py scan-services
+python ../TrueVow_Shared_Orchestration/orchestrator.py agent-checkin start "Customer Success: <task> | resuming from <state> | goal: <what success looks like>"
+```
+
+**During work — record decisions as they happen:**
+```
+python ../TrueVow_Shared_Orchestration/memory.py remember <category> "<title>" "<content>" --importance N
+```
+
+**End of session — write back, then push:**
+```
+python ../TrueVow_Shared_Orchestration/orchestrator.py agent-checkin done "Customer Success: <accomplished> | outcome: <result> | learned: <insight> | next: <remaining>" --status DONE
+python ../TrueVow_Shared_Orchestration/orchestrator.py push-memory
+```
+
+**If blocked — raise it immediately, never go silent:**
+```
+python ../TrueVow_Shared_Orchestration/orchestrator.py agent-checkin blocked "Customer Success: <blocker> | attempted: <what you tried> | need: <what unblocks you>"
+```
+
+**RULE 0 — No fabrication.** Never report a build, a test count, or a metric you did not actually produce. If a command did not run green in front of you, it is not green. A stub result is not a real result. Binding platform-wide.
+
+---
+
 ## The Final Instruction
 
 You are not building a dashboard. You are building the early-warning system for TrueVow's customer relationships — the service that tells a CSM which tenant is about to churn before the tenant themselves knows it, that guides a new firm from contract to live product without a single missed step, and that makes sure no renewal date passes without someone picking up the phone.
